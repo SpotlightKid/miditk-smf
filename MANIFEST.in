@@ -1,0 +1,14 @@
+include LICENSE.rst
+include README.md CHANGELOG.md
+include tox.ini pytest.ini
+include Makefile
+include requirements.txt
+include miditk/smf/_speedups.c
+
+graft requirements
+
+recursive-include tests *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+
+recursive-include docs *.rst conf.py Makefile make.bat *.jpg *.png *.gif
