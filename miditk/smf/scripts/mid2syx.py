@@ -28,7 +28,6 @@ __version__ = "0.2"
 __usage__ = "Usage: mid2syx.py MIDIFILE"
 
 
-
 def _ord(x):
     return x if isinstance(x, int) else ord(x)
 
@@ -79,7 +78,7 @@ def main(args=None):
 
     if not os.path.isdir(args.output_dir):
         error("Not a directory: '%s'\n", args.output_dir)
-        op.print_help()
+        ap.print_help()
         return 1
 
     sequence = MidiSequence.fromfile(args.midifile)
