@@ -548,7 +548,7 @@ class NullMidiEventHandler(BaseMidiEventHandler):
 
         :param int value: 0-2097151
 
-        To calculate the tempo value from bpm: ``int(60,000.00 / BPM)``
+        To calculate the tempo value from bpm: ``int(60,000,000 / BPM)``
 
         """
         pass
