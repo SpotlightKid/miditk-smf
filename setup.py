@@ -91,8 +91,6 @@ else:
     )
 
 
-# Add custom distribution meta-data, avoids warning when running setup
-distutils.dist.DistributionMetadata.revision = None
 # read meta-data from miditk/smf/release.py
 exec(read('miditk', 'smf', 'release.py'), {}, setup_opts)
 

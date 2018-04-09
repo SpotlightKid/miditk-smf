@@ -9,7 +9,6 @@ keywords = 'MIDI, parsing, multimedia, I/O'
 author = 'Christopher Arndt'
 author_email = 'chris@chrisarndt.de'
 url = 'https://github.com/SpotlightKid/miditk-smf'
-download_url = url + 'releases'
 license = 'MIT License'
 description = "A toolkit for working with Standard MIDI files"
 platforms = 'POSIX, Windows, MacOS X'
