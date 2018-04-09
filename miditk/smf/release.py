@@ -3,8 +3,6 @@
 # miditk/smf/release.py - release information for the python-midi package
 #
 
-from __future__ import unicode_literals
-
 name = 'miditk-smf'
 version = '0.1.0'
 keywords = 'MIDI, parsing, multimedia, I/O'
