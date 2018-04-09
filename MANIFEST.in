@@ -5,6 +5,7 @@ include requirements.txt
 include miditk/smf/_speedups.c
 
 graft requirements
+graft examples
 
 recursive-include tests *
 recursive-exclude * __pycache__

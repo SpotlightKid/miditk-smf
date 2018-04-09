@@ -209,7 +209,7 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
         if self.debug:
             log.debug("System exclusive event, %i bytes", len(event.data) + 1)
 
-        if ord(event.data[-1]) == END_OF_EXCLUSIVE:
+        if tointseq(event.data)[-1] == END_OF_EXCLUSIVE:
             if self._sysex_continuation:
                 if self.debug:
                     log.debug("Sysex continuation in effect. Appending event data.")
