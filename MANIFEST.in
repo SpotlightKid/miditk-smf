@@ -1,5 +1,4 @@
-include LICENSE.rst
-include README.md CHANGELOG.md
+include CHANGELOG.rst LICENSE.rst README.rst
 include tox.ini pytest.ini
 include Makefile
 include requirements.txt
