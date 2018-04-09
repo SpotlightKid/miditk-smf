@@ -237,4 +237,3 @@ FPS_24 = 0xE8
 FPS_25 = 0xE7
 FPS_29 = 0xE3
 FPS_30 = 0xE2
-
