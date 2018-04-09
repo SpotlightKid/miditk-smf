@@ -29,7 +29,7 @@ Overview
 ``miditk-smf`` is a general-purpose library for the parsing and generation of
 Standard MIDI Files (SMF). The package is part of several packages under the
 common top-level package namespace ``miditk``. This package mainly provides
-the ``midi.smf`` sub-package for handling standard MIDI files. Additional
+the ``miditk.smf`` sub-package for handling standard MIDI files. Additional
 sub-packages with more specialised MIDI libraries and tools will be distributed
 as separate package distributions in the future.
 
