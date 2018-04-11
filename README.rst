@@ -79,7 +79,7 @@ Package contents
     An event handler, which stores all MIDI events from a MIDI file in a
     MidiSequence container class.
 
-``miditk.smf.sequence``
+``miditk.smf.writer``
     An event handler to write out MIDI events to a Standard MIDI File.
 
 
