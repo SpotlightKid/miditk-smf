@@ -15,8 +15,6 @@ __all__ = (
 )
 
 
-from libc.stdint cimport *
-
 from struct import pack, unpack
 
 from six import iterbytes, text_type
