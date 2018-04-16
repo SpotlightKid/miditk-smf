@@ -16,7 +16,8 @@ End of file
 
 """
 
-from os.path import dirname, join
+import os
+from os.path import dirname, isdir, join
 
 import pytest  # noqa
 
@@ -25,7 +26,11 @@ from miditk.smf.writer import MidiFileWriter
 
 def test_write_type0():
     cmpfn = join(dirname(__file__), 'testdata', 'midiout.mid')
-    outfn = join(dirname(__file__), 'testoutput', 'midiout.mid')
+    outdir = join(dirname(__file__), 'testoutput')
+    outfn = join(outdir, 'midiout.mid')
+
+    if not isdir(outdir):
+        os.makedirs(outdir)
 
     with open(outfn, 'wb') as smf:
         midi = MidiFileWriter(smf)
