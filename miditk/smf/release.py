@@ -4,7 +4,7 @@
 #
 
 name = 'miditk-smf'
-version = '0.1.0'
+version = '0.2.0'
 keywords = 'MIDI, parsing, multimedia, I/O'
 author = 'Christopher Arndt'
 author_email = 'chris@chrisarndt.de'
