@@ -9,7 +9,7 @@ By default writes each sysex event contained in the MIDI file to its own file
 in the output directory (defaults to the current working directory) which
 contains the pure sysex data. The filename of each sysex file is constructed
 by appending the number of the sysex event to a common prefix, which can be
-specified via an option (defaults to 'msg_').
+specified via an option (defaults to `msg_`).
 
 """
 
