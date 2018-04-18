@@ -17,11 +17,11 @@ class Transposer(MidiFileWriter):
 
         return note
 
-    def note_on(self, channel=0, note=0x40, velocity=0x40):
+    def note_on(self, channel, note, velocity):
         note = self._transp(channel, note)
         super(Transposer, self).note_on(channel, note, velocity)
 
-    def note_off(self, channel=0, note=0x40, velocity=0x40):
+    def note_off(self, channel, note, velocity):
         note = self._transp(channel, note)
         super(Transposer, self).note_off(channel, note, velocity)
 

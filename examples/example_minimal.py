@@ -26,7 +26,6 @@ with open(outfile, 'wb') as smf:
     midi.start_of_track()
 
     # musical events
-    midi.update_ticks(0)
     midi.note_on(channel=0, note=0x40)
 
     midi.update_ticks(192)
