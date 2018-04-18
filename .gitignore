@@ -3,12 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Cython C output
-miditk/smf/_speedups.c
-
-# C extensions
-*.so
-
 # Distribution / packaging
 .Python
 env/

@@ -13,14 +13,6 @@ import sys
 from os.path import dirname, join
 
 from setuptools import setup
-from setuptools.extension import Extension
-
-try:
-    from Cython.Distutils import build_ext
-    have_cython = True
-except ImportError:
-    print("Warning: Cython not available. '_speedups' C extension disabled.")
-    have_cython = False
 
 
 def read(*args):
@@ -94,11 +86,6 @@ else:
 # read meta-data from miditk/smf/release.py
 exec(read('miditk', 'smf', 'release.py'), {}, setup_opts)
 
-if have_cython:
-    setup_opts['ext_modules'] = [
-        Extension("miditk.smf._speedups", [join("miditk", "smf", "_speedups.pyx")])
-    ]
-    setup_opts['cmdclass']["build_ext"] = build_ext
 
 setup(
     long_description=read('README.rst'),
@@ -112,8 +99,5 @@ setup(
     test_suite='tests',
     install_requires=install_requires,
     tests_require=tests_require,
-    extras_require={
-        'speedups': ['Cython'],
-    },
     **setup_opts
 )

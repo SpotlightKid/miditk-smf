@@ -2,7 +2,6 @@ include CHANGELOG.rst LICENSE.rst README.rst
 include tox.ini pytest.ini
 include Makefile
 include requirements.txt
-include miditk/smf/_speedups.c
 
 graft requirements
 graft examples
