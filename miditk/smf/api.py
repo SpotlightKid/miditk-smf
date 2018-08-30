@@ -665,7 +665,9 @@ class PrintingMidiEventHandler(NullMidiEventHandler):
         print("Instrument name - '%s'" % text.decode(self.encoding))
 
     def key_signature(self, sf, mi):
-        print('Key signature - ' % (sf, mi))
+        keys = ('Cb', 'Gb', 'Db', 'Ab', 'Eb', 'Bb', 'F',
+                'C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#')
+        print('Key signature - %s %s' % (keys[sf + 7], 'minor' if mi else 'major'))
 
     def marker(self, text):
         print("Marker - '%s'" % text.decode(self.encoding))
