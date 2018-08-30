@@ -76,11 +76,10 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
-release: clean ## package and upload a release
-	$(PYTHON) setup.py sdist upload
-	$(PYTHON) setup.py bdist_wheel upload
+release: dist ## package and upload a release
+	twine upload --skip-existing dist/*.whl dist/*.tar.bz2
 
-dist: clean ## builds source and wheel package
+dist: clean docs ## builds source and wheel package
 	$(PYTHON) setup.py sdist
 	$(PYTHON) setup.py bdist_wheel
 	ls -l dist
