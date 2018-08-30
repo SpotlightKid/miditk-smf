@@ -1,10 +1,12 @@
 Changelog
 #########
 
-Development
-===========
+0.2.1 (2018-08-20)
+==================
 
-[nothing yet]
+* Fixed missing string formatting args in ``PrintingMidiEventHandler.key_signature`` method.
+* Added ``example_program_change_map.py`` script to examples.
+* Ensure support for Pyton 3.7.
 
 0.2.0 (2018-04-18)
 ==================
