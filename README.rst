@@ -167,6 +167,7 @@ semitones):
 
 .. code-block:: python
 
+    import sys
     from miditk.smf import MidiFileReader, MidiFileWriter
 
     # MidiFileWriter is a sub-class of NullMidiEventHandler.
@@ -182,12 +183,13 @@ semitones):
     infile = sys.argv.pop(1)
     outfile = sys.argv.pop(1)
 
-    # Create the event handlers.
-    midiout = Transposer(outfile)
-    midiin = MidiFileReader(infile, midiout)
+    # Create the parser and event handler
+    with open(outfile, 'wb') as smf:
+        midiout = Transposer(smf)
+        midiin = MidiFileReader(infile, midiout)
 
-    # Now do the processing.
-    midiin.read()
+        # Now do the processing.
+        midiin.read()
 
 
 Development
