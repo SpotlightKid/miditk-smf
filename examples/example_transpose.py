@@ -11,7 +11,7 @@ class Transposer(MidiFileWriter):
     """Transpose note values of all note on/off events by 1 octave."""
 
     def _transp(self, ch, note):
-        # don't transpose note son teh drum channel
+        # don't transpose note son the drum channel
         if ch != 9:
             note = min(127, note + 12)
 
@@ -26,14 +26,16 @@ class Transposer(MidiFileWriter):
         super(Transposer, self).note_off(channel, note, velocity)
 
 
-# This is a small type 0 midi file, with only two midi events on track #0.
-infile = join(dirname(dirname(abspath(__file__))), 'tests', 'testdata', 'minimal.mid')
-# The output is written to the tests/testoutput directory
-outfile = join(dirname(dirname(abspath(__file__))), 'tests', 'testoutput', 'transposed.mid')
+if __name__ == '__main__':
+    parentdir = dirname(dirname(abspath(__file__)))
+    # This is a small type 0 midi file, with only two midi events on track #0.
+    infilename = join(parentdir, 'tests', 'testdata', 'minimal.mid')
+    # The output is written to the tests/testoutput directory
+    outfilename = join(parentdir, 'tests', 'testoutput', 'transposed.mid')
 
-# create parsre and event handler
-with open(outfile, 'wb') as smf:
-    midiout = Transposer(smf)
-    midiin = MidiFileReader(infile, midiout)
-    # now do the processing
-    midiin.read()
+    # Create parser and event handler
+    with open(outfilename, 'wb') as smf:
+        midiout = Transposer(smf)
+        midiin = MidiFileReader(infilename, midiout)
+        # now do the processing
+        midiin.read()

@@ -19,12 +19,12 @@ from miditk.smf.api import PrintingMidiEventHandler
 
 
 try:
-    infile = sys.argv[1]
+    infilename = sys.argv[1]
 except IndexError:
-    infile = join(dirname(dirname(abspath(__file__))), 'tests', 'testdata',
-                  'minimal-cubase-type0.mid')
+    parentdir = dirname(dirname(abspath(__file__)))
+    infilename = join(parentdir, 'tests', 'testdata', 'minimal-cubase-type0.mid')
 
 # create the reader and the event handler
-midiin = MidiFileReader(infile, PrintingMidiEventHandler())
+midiin = MidiFileReader(infilename, handler=PrintingMidiEventHandler())
 # do parsing
 midiin.read()

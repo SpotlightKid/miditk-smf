@@ -14,11 +14,12 @@ from miditk.smf import MidiFileWriter
 
 
 try:
-    outfile = sys.argv[1]
+    outfilename = sys.argv[1]
 except IndexError:
-    outfile = join(dirname(dirname(abspath(__file__))), 'tests', 'testoutput', 'drumpattern.mid')
+    parentdir = dirname(dirname(abspath(__file__)))
+    outfilename = join(parentdir, 'tests', 'testoutput', 'drumpattern.mid')
 
-with open(outfile, 'wb') as smf:
+with open(outfilename, 'wb') as smf:
     midi = MidiFileWriter(smf)
 
     # write file and track header

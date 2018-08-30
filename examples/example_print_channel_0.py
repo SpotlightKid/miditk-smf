@@ -26,6 +26,6 @@ except IndexError:
                   'minimal-cubase-type1.mid')
 
 # create the reader and the event handler
-midiin = MidiFileReader(infile, ChannelZeroPrinter())
+midiin = MidiFileReader(infile, handler=ChannelZeroPrinter())
 # do parsing
 midiin.read()
