@@ -162,7 +162,7 @@ class BaseMidiEventHandler(object):
         :param event: :class:`.MidiEvent` of type ``SYSTEM_EXCLUSIVE``
 
         """
-        self.sysex_message(event.data)
+        self.system_exclusive(event.data)
 
     def channel_message_event(self, event):
         """Dispatch channel message events.
