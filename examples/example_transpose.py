@@ -11,7 +11,7 @@ class Transposer(MidiFileWriter):
     """Transpose note values of all note on/off events by 1 octave."""
 
     def _transp(self, ch, note):
-        # don't transpose note son the drum channel
+        # don't transpose notes on the drum channel
         if ch != 9:
             note = min(127, note + 12)
 
