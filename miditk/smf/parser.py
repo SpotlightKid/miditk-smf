@@ -14,6 +14,7 @@ from ..common.constants import (CHANNEL_PRESSURE, CONTROLLER_CHANGE, END_OF_EXCL
                                 ESCAPE_SEQUENCE, META_EVENT, MONO_PRESSURE, MTC, NOTE_OFF, NOTE_ON,
                                 PITCH_BEND, PROGRAM_CHANGE, SONG_POSITION_POINTER, SONG_SELECT,
                                 SYSTEM_EXCLUSIVE)
+from .api import MidiEvent
 from .converters import read_bew, read_varlen, sizeof_varlen, tointseq
 
 
@@ -40,32 +41,6 @@ def _read_event_data(stream):
 
 
 # classes
-class MidiEvent(object):
-    def __init__(self, type_=META_EVENT, track=0):
-        self.type = type_
-        self.track = track
-        self.meta_type = None
-        self.data_size = 0
-        self.data = []
-        self.channel = None
-
-    def __repr__(self):
-        s = "<MidiEvent track=%s" % (self.track,)
-        if self.type == SYSTEM_EXCLUSIVE:
-            s += " type=sysex len=%i" % (len(self.data),)
-        if self.channel is not None:
-            s += " ch=%02i status=%X" % (self.channel, self.type)
-            s += " data=%r" % (tointseq(self.data),)
-        elif self.meta_type:
-            s += " type=meta type=%X data=%r" % (self.meta_type, tointseq(self.data))
-        return s + '>'
-
-    @property
-    def bytes(self):
-        """Return event data as a list of single byte int values."""
-        return [self.type] + tointseq(self.data)
-
-
 class MidiFileParser(object):
     """Parser that decodes the raw binary midi data.
 
