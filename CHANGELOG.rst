@@ -6,15 +6,15 @@ Changelog
 ==================
 
 * Added example script to convert a type 1 MIDI file into a type 0 format file.
-* Moved ``MidiEvent`` class to ``miditk.smf.api`` module and exposed it in
-  ``miditk.smf`` module name space and improved and fixed several aspects of
-  the ``MidiEvent`` class.
+* Moved previously private ``MidiEvent`` class to ``miditk.smf.api`` module and
+  exposed it in ``miditk.smf`` module name space and improved and fixed several
+  aspects of the ``MidiEvent`` class.
 * Fixed parsing of polyphonic pressure events.
 * Fixed output for polyphonic pressure events in ``PrintingMidiEventHandler``.
-* Fix time keepin in ``ObjectMidiEventHandler`` for multi-track files:
-  Reset current_time attribute when new track starts
+* Fix time keeping in ``ObjectMidiEventHandler`` for multi-track files:
+  reset ``current_time`` attribute when new track starts.
 * Fixed: ``BaseMidiEventHandler`` used wrong handler method name for sysex messages.
-* Updated requirements.
+* Updated base/dev requirements.
 
 
 0.2.1 (2018-08-20)
