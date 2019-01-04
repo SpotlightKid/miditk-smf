@@ -89,7 +89,7 @@ class MidiFileParser(object):
         try:
             try:
                 method = getattr(self._handler, methodname)
-            except AttributeError as exc:
+            except AttributeError:
                 msg = "Method '%s' not implemented by handler." % methodname
                 if self.strict:
                     raise AttributeError(msg)

@@ -101,7 +101,6 @@ if __name__ == '__main__':
         # The output is written to the tests/testoutput directory
         outfilename = join(parentdir, 'tests', 'testoutput', 'type0-converted.mid')
 
-
     # Parse input file to a MidiSequence
     with open(infilename, 'rb') as insmf:
         seq = MidiSequence.fromfile(insmf)

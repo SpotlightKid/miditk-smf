@@ -103,7 +103,7 @@ def main(args=None):
             if not args.dry_run:
                 fp = open(outfile.encode('utf-8'), 'wb')
         except (IOError, OSError) as exc:
-            error("Could not open output file '%s' for writing.", outfile)
+            error("Could not open output file '%s' for writing: %s", outfile, exc)
         else:
             if args.verbose:
                 print("Writing sysex msg #%03i to '%s'..." % (i + 1, outfile))
