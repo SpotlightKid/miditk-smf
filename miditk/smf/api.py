@@ -8,12 +8,13 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 # package-specific imports
 from ..common.constants import (CHANNEL_PRESSURE, CONTROLLER_CHANGE, COPYRIGHT, CUEPOINT,
-                                DEVICE_NAME, END_OF_TRACK, INSTRUMENT_NAME, KEY_SIGNATURE, LYRIC,
-                                MARKER, META_EVENT, MIDI_CH_PREFIX, MIDI_PORT, NOTE_OFF, NOTE_ON,
-                                PITCH_BEND, POLYPHONIC_PRESSURE, PROGRAM_CHANGE, PROGRAM_NAME,
-                                SEQUENCE_NAME, SEQUENCE_NUMBER, SEQUENCER_SPECIFIC, SMTP_OFFSET,
-                                SYSTEM_EXCLUSIVE, TEMPO, TEXT, TIME_SIGNATURE)
-from .converters import read_bew, tointseq
+                                DEVICE_NAME, END_OF_EXCLUSIVE, END_OF_TRACK, INSTRUMENT_NAME,
+                                KEY_SIGNATURE, LYRIC, MARKER, META_EVENT, MIDI_CH_PREFIX,
+                                MIDI_PORT, NOTE_OFF, NOTE_ON, PITCH_BEND, POLYPHONIC_PRESSURE,
+                                PROGRAM_CHANGE, PROGRAM_NAME, SEQUENCE_NAME, SEQUENCE_NUMBER,
+                                SEQUENCER_SPECIFIC, SMTP_OFFSET, SYSTEM_EXCLUSIVE, TEMPO, TEXT,
+                                TIME_SIGNATURE)
+from .converters import read_bew, tointseq, write_varlen
 
 __all__ = (
     'BaseMidiEventHandler',
@@ -25,28 +26,34 @@ __all__ = (
 
 class MidiEvent(object):
     def __init__(self, type_=META_EVENT, track=0):
-        self.type = type_
-        self.track = track
-        self.meta_type = None
-        self.data_size = 0
-        self.data = []
         self.channel = None
+        self.data = b''
+        self.meta_type = None
+        self.size = 0
+        self.track = track
+        self.type = type_
 
     def __repr__(self):
         s = "<MidiEvent track=%s" % (self.track,)
         if self.type == SYSTEM_EXCLUSIVE:
             s += " type=sysex len=%i" % (len(self.data),)
-        if self.channel is not None:
-            s += " ch=%02i status=%X" % (self.channel, self.type)
-            s += " data=%r" % (tointseq(self.data),)
+        elif self.type == END_OF_EXCLUSIVE:
+            s += " type=escape-sequence len=%i" % (len(self.data),)
+        elif self.channel is not None:
+            s += " status=%02X ch=%02i data=%r" % (self.type, self.channel, tointseq(self.data))
         elif self.meta_type:
-            s += " type=meta type=%X data=%r" % (self.meta_type, tointseq(self.data))
+            s += " type=%02X data=%r" % (self.meta_type, tointseq(self.data))
+
         return s + '>'
 
-    @property
-    def bytes(self):
-        """Return event data as a list of single byte int values."""
-        return [self.type] + tointseq(self.data)
+    def to_bytes(self):
+        """Return event data as a byte string ready to be written to an SMF stream."""
+        if self.type in (END_OF_EXCLUSIVE, SYSTEM_EXCLUSIVE):
+            return bytes([self.type]) + write_varlen(len(self.data)) + self.data
+        elif self.channel is not None:
+            return bytes([self.type | self.channel]) + self.data
+        elif self.meta_type:
+            return bytes([self.type, self.meta_type]) + write_varlen(len(self.data)) + self.data
 
 
 class BaseMidiEventHandler(object):
