@@ -48,6 +48,10 @@ class MidiSequence(list):
                 print('%03i: Sysex_event - size: %i [%.2f]' % (
                       i, len(ev.data) + 1, ev.time))
 
+    def events_by_ticks(self):
+        return groupby(sorted(self, key=attrgetter('ticks', 'track')),
+                       key=attrgetter('ticks'))
+
     def events_by_time(self):
         return groupby(sorted(self, key=attrgetter('time', 'track')),
                        key=attrgetter('time'))
@@ -139,6 +143,7 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
 
         """
         event.time = self.current_time
+        event.ticks = self.absolute_time
         event.relative_time = self.relative_time
         event.track = self.current_track if track is None else track
         self._instance.append(event)
