@@ -128,6 +128,7 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
         BaseMidiEventHandler.update_ticks(self, ticks, relative)
         self.current_time += ticks * (self.current_tempo / 1000.0 /
                                       self._instance.tick_division)
+
         if self.debug:
             log.debug("Timer update: %s ticks", ticks)
 
@@ -173,6 +174,7 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
             log.debug("Start of track #%i.", track)
 
         self.current_track = track
+        self.current_time = 0.0
 
     #############################
     ## Channel events
