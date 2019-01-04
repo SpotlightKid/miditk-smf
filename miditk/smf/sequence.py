@@ -77,10 +77,9 @@ class MidiSequence(list):
                 yield event
 
     @classmethod
-    def fromfile(cls, filename, debug=False):
+    def fromfile(cls, infile, debug=False):
         sequence = cls()
-        midiin = MidiFileReader(filename,
-                                ObjectMidiEventHandler(sequence, debug=debug))
+        midiin = MidiFileReader(infile, ObjectMidiEventHandler(sequence, debug=debug))
         midiin.read()
         return sequence
 
