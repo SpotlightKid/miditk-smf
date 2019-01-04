@@ -663,7 +663,7 @@ class PrintingMidiEventHandler(NullMidiEventHandler):
         print('Pitch bend - ch:%02s, value:%02Xh' % (channel, value))
 
     def poly_pressure(self, channel=0, note=0x40, pressure=0x40):
-        print('Poly pressure - ch: %02i, note:%02Xh, pressure:%02Xh',
+        print('Poly pressure - ch: %02i, note:%02Xh, pressure:%02Xh' %
               (channel, note, pressure))
 
     def program_change(self, channel, program):
