@@ -11,12 +11,11 @@ import logging
 
 # package-specific imports
 from ..common.constants import (CHANNEL_PRESSURE, CONTROLLER_CHANGE, END_OF_EXCLUSIVE,
-                                ESCAPE_SEQUENCE, META_EVENT, MONO_PRESSURE, MTC, NOTE_OFF, NOTE_ON,
-                                PITCH_BEND, PROGRAM_CHANGE, SONG_POSITION_POINTER, SONG_SELECT,
+                                ESCAPE_SEQUENCE, META_EVENT, MTC, NOTE_OFF, NOTE_ON, PITCH_BEND,
+                                POLY_PRESSURE, PROGRAM_CHANGE, SONG_POSITION_POINTER, SONG_SELECT,
                                 SYSTEM_EXCLUSIVE)
 from .api import MidiEvent
 from .converters import read_bew, read_varlen, sizeof_varlen, tointseq
-
 
 __all__ = ('MidiFileParser', 'ParseError')
 log = logging.getLogger(__name__)
@@ -56,13 +55,13 @@ class MidiFileParser(object):
     """
 
     channel_data_sizes = {
-        PROGRAM_CHANGE: 1,
         CHANNEL_PRESSURE: 1,
+        CONTROLLER_CHANGE: 2,
         NOTE_OFF: 2,
         NOTE_ON: 2,
-        MONO_PRESSURE: 2,
-        CONTROLLER_CHANGE: 2,
         PITCH_BEND: 2,
+        POLY_PRESSURE: 2,
+        PROGRAM_CHANGE: 1,
     }
 
     system_data_sizes = {
