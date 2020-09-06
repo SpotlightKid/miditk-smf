@@ -91,7 +91,6 @@ class BaseMidiEventHandler(object):
         # suprising behaviour for those that are not into the intimate
         # details of the midi spec.
         self.convert_zero_velocity = True
-        self.dispatch_controllers = False
 
     ## Handle parsing events, i.e. non-midi, file structure and timing events
 
