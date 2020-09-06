@@ -22,21 +22,17 @@ from ..common.constants import (ACTIVE_SENSING, CHANNEL_PRESSURE, CONTROLLER_CHA
 from .api import NullMidiEventHandler
 from .converters import tobytestr, write_bew, write_varlen
 
-__all__ = ('MidiFileWriter',)
+
+__all__ = ('BaseMidiFileWriter', 'MidiFileWriter',)
 
 
-class MidiFileWriter(NullMidiEventHandler):
-    """MidiOutFile writes out MIDI events to a Standard MIDi FIle.
-
-    It subclasses :class:`.NullMidiEventHandler`. For the documentation of method params, see the
-    corresponding methods there and in its base class :class:`.BaseMidiEventHandler`.
-
-    """
+class BaseMidiFileWriter(object):
+    """Base class for MidiFileWriter, which handles event serialization and file I/O."""
 
     def __init__(self, fp, encoding='UTF-8'):
         self._file = fp
         self._track_buffer = None
-        super(MidiFileWriter, self).__init__(encoding='UTF-8')
+        super(BaseMidiFileWriter, self).__init__(encoding='UTF-8')
 
     def event_slice(self, slc):
         """Write the event to the current track.
@@ -47,6 +43,19 @@ class MidiFileWriter(NullMidiEventHandler):
         self._write_varlen(self.relative_time)
         self._write(slc)
         self.update_ticks()
+
+    def meta_slice(self, meta_type, data=b''):
+        """Write a meta event."""
+        if isinstance(data, text_type):
+            data = data.encode(self.encoding, errors='surrogateescape')
+
+        self.event_slice(tobytestr([META_EVENT, meta_type]) +
+                         write_varlen(len(data)) + data)
+
+    def sysex_slice(self, data):
+        sysex_len = write_varlen(len(data) + 1)
+        self.event_slice(tobytestr(SYSTEM_EXCLUSIVE) + sysex_len + data +
+                         tobytestr(END_OF_EXCLUSIVE))
 
     def _write(self, data):
         """Write the next text slice to the raw data."""
@@ -104,6 +113,30 @@ class MidiFileWriter(NullMidiEventHandler):
         self.current_track = track
         self._track_buffer = BytesIO()
 
+
+    def end_of_track(self, track=None):
+        """Handle end of track meta event.
+
+        Writes the track to the buffer.
+
+        """
+        self.meta_slice(END_OF_TRACK)
+        track_data = self._track_buffer.getvalue()
+        self._track_buffer = None
+        # we need to know size of track data and write the track header
+        self._write(TRACK_HEADER)
+        self._write_bew(len(track_data), 4)
+        # then write the track data
+        self._write(track_data)
+
+
+class MidiFileWriter(BaseMidiFileWriter, NullMidiEventHandler):
+    """MidiOutFile writes out MIDI events to a Standard MIDI File.
+
+    It subclasses :class:`.NullMidiEventHandler`. For the documentation of method params, see the
+    corresponding methods there and in its base class :class:`.BaseMidiEventHandler`.
+
+    """
     #####################
     ## Midi events
 
@@ -142,37 +175,10 @@ class MidiFileWriter(NullMidiEventHandler):
 
     def system_exclusive(self, data):
         """Handle system exclusive (sysex) message."""
-        sysex_len = write_varlen(len(data) + 1)
-        self.event_slice(tobytestr(SYSTEM_EXCLUSIVE) + sysex_len + data +
-                         tobytestr(END_OF_EXCLUSIVE))
+        self.sysex_slice(data)
 
     #####################
     ## Meta events
-
-    def meta_slice(self, meta_type, data):
-        """Write a meta event."""
-        if isinstance(data, text_type):
-            data = data.encode(self.encoding, errors='surrogateescape')
-
-        self.event_slice(tobytestr([META_EVENT, meta_type]) +
-                         write_varlen(len(data)) + data)
-
-    def end_of_track(self, track=None):
-        """Handle end of track meta event.
-
-        Writes the track to the buffer.
-
-        """
-        track_data = self._track_buffer.getvalue()
-        self._track_buffer = None
-        # we need to know size of track data.
-        eot_slice = write_varlen(self.relative_time) + tobytestr(
-            [META_EVENT, END_OF_TRACK, 0])
-        self._write(TRACK_HEADER)
-        self._write_bew(len(track_data) + len(eot_slice), 4)
-        # then write
-        self._write(track_data)
-        self._write(eot_slice)
 
     def copyright(self, text):
         """Handle copyright notice meta event."""

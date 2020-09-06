@@ -11,7 +11,7 @@ from .parser import MidiFileParser  # noqa: F401
 from .reader import MidiFileReader  # noqa: F401
 from .release import version as __version__  # noqa: F401
 from .sequence import MidiSequence  # noqa: F401
-from .writer import MidiFileWriter  # noqa: F401
+from .writer import BaseMidiFileWriter, MidiFileWriter  # noqa: F401
 
 
 class NullHandler(logging.Handler):
