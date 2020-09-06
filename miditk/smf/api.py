@@ -123,13 +123,21 @@ class BaseMidiEventHandler(object):
         """
         self.current_track = None
 
-    def start_of_track(self, track):
+    def start_of_track(self, track=None):
         """Handle start of track event.
 
         Saves the track number in the instance attribute ``current_track``
         for use by the other event handler methods.
 
+        :param int track: number of track (None = current track + 1)
+
         """
+        if track is None:
+            if self.current_track is None:
+                track = 0
+            else:
+                track = self.current_track + 1
+
         self.current_track = track
 
     def reset_ticks(self):
