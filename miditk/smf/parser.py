@@ -293,10 +293,10 @@ class MidiFileParser(object):
 
             # Otherwise it must be a channel voice message
             else:
-                event.data_size = self.channel_data_sizes.get(status & 0xF0, 0)
-                event.data = instream.read(event.data_size)
-                event.type = status & 0xF0
+                event.type = type_ = status & 0xF0
                 event.channel = status & 0xF
+                event.data_size = self.channel_data_sizes.get(type_, 0)
+                event.data = instream.read(event.data_size)
                 dispatch('channel_message_event', event)
 
     def parse_tracks(self):
