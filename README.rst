@@ -149,8 +149,9 @@ instance to access information about the midi file properties or events.
         print "Sysex event (%i bytes) @ %.2f" (len(ev.data), ev.timestamp)
 
     # Iterate over all events sorted by timestamp and then track.
-    for ev in sequence.events_by_time():
-        handle_event(ev)
+    for time, group in sequence.events_by_time():
+        for ev in group:
+            handle_event(ev)
 
 
 Changing MIDI events in-stream
