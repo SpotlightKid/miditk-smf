@@ -3,11 +3,13 @@
 
 MidiSequence is a container for a sequence of timed MidiEvent instances,
 which offers several convenience methods to access information about the
-MIDI file properties and events."""
+MIDI file properties and events.
+
+"""
 
 import sys
 
-from miditk.smf import MidiSequence,api
+from miditk.smf import MidiSequence
 
 
 # Do parsing
