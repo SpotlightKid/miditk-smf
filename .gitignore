@@ -61,3 +61,6 @@ docs/miditk*.rst
 
 # PyBuilder
 target/
+
+# Geany editor project files
+*.geany
