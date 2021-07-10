@@ -113,9 +113,14 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
         if instance is None:
             instance = MidiSequence()
         BaseMidiEventHandler.__init__(self)
+        instance.tempo_map = []
+        instance.time_signature_map = []
+        instance.key_signature_map = []
         self._instance = instance
         self.current_time = 0.0
         self.current_tempo = 500000
+        self.current_time_signature = None
+        self.current_key_signature = None
         self.tick_division = 96
         self.running_status = None
         self._sysex_continuation = False
@@ -311,19 +316,24 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
             self._instance.initial_tempo = value
 
         self.current_tempo = value
+        bpm = 60000000.0 / value
+        ms_per_quarter = value / 1000.0
+        self._instance.tempo_map.append((self.current_time, (bpm, ms_per_quarter)))
+
         if self.debug:
-            log.debug("Tempo: %.2f ms/quarter note (%.2f BPM)",
-                      value / 1000.0, 60000000.0 / value)
+            log.debug("Tempo: %.2f ms/quarter note (%.2f BPM)", ms_per_quarter, bpm)
 
     def time_signature(self, nn, dd, cc, bb):
         """Handle time signature change events."""
-        self.current_time_signature = (nn, dd**2)
+        self.current_time_signature = (nn, dd)
+        self._instance.time_signature_map.append((self.current_time, (nn, dd)))
         if self.debug:
-            log.debug("Time signature: %i/%i (%i cpm, %i dpqn)",
-                      nn, dd**2, cc, bb)
+            log.debug("Time signature: %i/%i (%i cpm, %i dpqn)", nn, dd**2, cc, bb)
 
     def key_signature(self, sf, mi):
         """Handle key signature change events."""
+        self.current_key_signature = (sf, mi)
+        self._instance.key_signature_map.append((self.current_time, (sf, mi)))
         if self.debug:
             log.debug("Key signature: %s %s", sf, mi)
 
