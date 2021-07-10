@@ -9,6 +9,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 # standard library imports
 import logging
+from inspect import isclass
 from itertools import groupby
 from operator import attrgetter
 
@@ -77,9 +78,16 @@ class MidiSequence(list):
                 yield event
 
     @classmethod
-    def fromfile(cls, infile, debug=False):
+    def fromfile(cls, infile, handler=None, *args, **kwargs):
+        if handler is None:
+            handler = ObjectMidiEventHandler
+
         sequence = cls()
-        midiin = MidiFileReader(infile, ObjectMidiEventHandler(sequence, debug=debug))
+
+        if isclass(handler):
+            handler = handler(sequence, *args, **kwargs)
+
+        midiin = MidiFileReader(infile, handler)
         midiin.read()
         return sequence
 
