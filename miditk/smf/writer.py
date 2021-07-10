@@ -113,7 +113,6 @@ class BaseMidiFileWriter(object):
         self.current_track = track
         self._track_buffer = BytesIO()
 
-
     def end_of_track(self, track=None):
         """Handle end of track meta event.
 
