@@ -205,11 +205,11 @@ class MidiFileWriter(BaseMidiFileWriter, NullMidiEventHandler):
 
     def midi_ch_prefix(self, channel):
         """Handle MIDI channel prefix meta event."""
-        self.meta_slice(MIDI_CH_PREFIX, tobytestr([channel]))
+        self.meta_slice(MIDI_CH_PREFIX, tobytestr(channel))
 
     def midi_port(self, value):
         """Handle MIDI port meta event."""
-        self.meta_slice(MIDI_CH_PREFIX, tobytestr([value]))
+        self.meta_slice(MIDI_CH_PREFIX, tobytestr(value))
 
     def sequence_name(self, text):
         """Handle sequence/track name meta event."""

@@ -102,6 +102,8 @@ def tobytestr(value, encoding='latin1'):
         value = value.encode(encoding)
     elif isinstance(value, (list, tuple)):
         value = _tobytes(*value)
+    elif isinstance(value, int):
+        value = _tobytes(value)
     return value
 
 

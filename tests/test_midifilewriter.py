@@ -16,6 +16,7 @@ End of file
 
 """
 
+import io
 import os
 from os.path import dirname, isdir, join
 
@@ -55,3 +56,15 @@ def test_write_type0():
 
     with open(outfn, 'rb') as out, open(cmpfn, 'rb') as cmp:
         assert cmp.read() == out.read()
+
+
+def test_write_sysex_issue_7():
+    smf = io.BytesIO()
+    midi = MidiFileWriter(smf)
+    midi.header(format=0, num_tracks=1, tick_division=96)
+    midi.start_of_track(track=0)
+    midi.system_exclusive(b'\xF0\xFD\x01\x02\x03\xF7')
+    midi.end_of_track()
+    midi.eof()
+
+    assert b'\xf0\x07\xf0\xfd\x01\x02\x03\xf7' in smf.getvalue()
