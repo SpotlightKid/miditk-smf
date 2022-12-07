@@ -12,8 +12,6 @@ specified via an option (defaults to `msg_`).
 
 """
 
-from __future__ import print_function
-
 import argparse
 import logging
 import os

@@ -3,8 +3,6 @@
 #
 """MIDI file low-level binary parsing."""
 
-from __future__ import absolute_import, unicode_literals
-
 # standard library imports
 import logging
 

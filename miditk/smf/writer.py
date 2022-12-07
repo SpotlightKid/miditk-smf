@@ -3,8 +3,6 @@
 #
 """Event handler, which writes back MIDI events to a Standard MIDI File."""
 
-from __future__ import absolute_import, unicode_literals
-
 from io import BytesIO
 
 from six import text_type

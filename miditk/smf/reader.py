@@ -3,8 +3,6 @@
 #
 """MidiFileReader combines the MidiFileParser with an event handler."""
 
-from __future__ import absolute_import, unicode_literals
-
 from io import BytesIO
 
 from six import string_types, text_type

@@ -4,8 +4,6 @@
 """A MIDI stream event handler class to convert an SMF file into a container
 object for a sequence of MIDI time-stamped events."""
 
-from __future__ import absolute_import, print_function, unicode_literals
-
 # standard library imports
 import logging
 from inspect import isclass
