@@ -80,8 +80,7 @@ release: dist ## package and upload a release
 	twine upload --skip-existing dist/*.whl dist/*.tar.gz
 
 dist: clean docs ## builds source and wheel package
-	$(PYTHON) setup.py sdist
-	$(PYTHON) setup.py bdist_wheel
+	$(PYTHON) -m build
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages

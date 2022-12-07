@@ -9,7 +9,7 @@ from .converters import (read_varlen, read_bew, sizeof_varlen, tobytestr,  # noq
 from .api import BaseMidiEventHandler, MidiEvent, NullMidiEventHandler  # noqa: F401
 from .parser import MidiFileParser  # noqa: F401
 from .reader import MidiFileReader  # noqa: F401
-from .release import version as __version__  # noqa: F401
+from .version import version as __version__  # noqa: F401
 from .sequence import MidiSequence  # noqa: F401
 from .writer import BaseMidiFileWriter, MidiFileWriter  # noqa: F401
 

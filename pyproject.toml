@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[tool.hatch.version]
+path = "miditk/smf/version.py"
+pattern = "version = \"(?P<version>.*?)\""
+
+[tool.hatch.build.targets.wheel]
+packages = ["miditk"]
+
+[project]
+dynamic = ["version"]
+name = "miditk-smf"
+authors = [
+  { name="Christopher Arndt", email="info@chrisarndt.de" },
+]
+description = "A Python toolkit for working with Standard MIDI files"
+readme = "README.md"
+license-files = { paths = ["LICENSE.md"] }
+keywords = [
+    "MIDI",
+    "multimedia",
+    "music",
+    "parsing",
+    "SMF",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Multimedia :: Sound/Audio :: MIDI",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "six",
+]
+
+
+[project.urls]
+"Homepage" = "https://github.com/SpotlightKid/miditk-smf"
+"Bug Tracker" = "https://github.com/SpotlightKid/miditk-smf/issues"
