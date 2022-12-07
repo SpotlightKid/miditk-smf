@@ -12,6 +12,19 @@ pattern = "version = \"(?P<version>.*?)\""
 packages = ["miditk"]
 
 
+[tool.hatch.envs.dev]
+features = [
+    "docs",
+    "dev",
+]
+
+
+[tool.hatch.envs.docs]
+features = [
+    "docs",
+]
+
+
 [tool.isort]
 line_length = 99
 profile = "black"
@@ -66,3 +79,20 @@ requires-python = ">=3.7"
 
 [project.scripts]
 miditk-midi2syx = "miditk.smf.scripts.mid2syx:main"
+
+
+[project.optional-dependencies]
+dev = [
+  "coverage",
+  "flake8",
+  "pydocstyle",
+  "pylint",
+  "pytest",
+  "radon",
+  "tox",
+  "twine",
+]
+docs = [
+    "myst-parser",
+    "sphinx",
+]

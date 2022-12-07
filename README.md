@@ -41,19 +41,17 @@ with open('minimal.mid', 'wb') as smf:
     midi.eof()
 ```
 
-For more examples, see the [Usage examples](#usage-examples) section
-below.
+For more examples, see the [Usage examples](#usage-examples) section below.
 
 
 ## Overview
 
-`miditk-smf` is a general-purpose library for the parsing and generation
-of Standard MIDI Files (SMF). The package is part of several planned
-packages under the common top-level package namespace `miditk`. This
-package mainly provides the `miditk.smf` sub-package for handling
-standard MIDI files. Additional sub-packages with more specialised MIDI
-libraries and tools will be distributed as separate package
-distributions in the future.
+`miditk-smf` is a general-purpose library for the parsing and generation of
+Standard MIDI Files (SMF). The package is part of several planned packages
+under the common top-level package namespace `miditk`. This package mainly
+provides the `miditk.smf` sub-package for handling standard MIDI files.
+Additional sub-packages with more specialised MIDI libraries and tools may be
+developed and distributed as separate package distributions in the future.
 
 
 ### Compatibility
@@ -70,17 +68,17 @@ from the [Python Package Index](https://pypi.org/project/miditk-smf/):
 pip install miditk-smf
 ```
 
-It is provided as a source distribution and a universal Python wheel for
-all supported Python versions and operating systems. It only depends on
-the Python standard library.
+It is provided as a source distribution and a universal Python wheel for all
+supported Python versions and operating systems. It only depends on the Python
+standard library.
 
 
 ## Package contents
 
 `miditk.common`:
 
-A collection of constants from the MIDI specification used by
-sub-packages and general data types for working with MIDI events.
+A collection of constants from the MIDI specification used by sub-packages and
+general data types for working with MIDI events.
 
 `miditk.smf`:
 
@@ -116,22 +114,20 @@ An event handler to write out MIDI events to a standard MIDI File.
 
 ## Usage examples
 
-The following section contains a few code examples, which demonstrate
-several usage scenarios for the different modules in the package. For more
-examples see also the scripts in the [examples] directory of the source
-distribution.
+The following section contains a few code examples, which demonstrate several
+usage scenarios for the different modules in the package. For more examples see
+also the scripts in the [examples] directory of the source distribution.
 
 
 ### Parsing a standard MIDI file
 
-The `miditk.smf` module provides the `MidiSequence` container class,
-which uses its own MIDI event handler class to collect all information
-and events from parsing a midi file. Use the `MidiSequence.fromfile()`
-class method to parse a standard MIDI file.
+The `miditk.smf` module provides the `MidiSequence` container class, which uses
+its own MIDI event handler class to collect all information and events from
+parsing a midi file. Use the `MidiSequence.fromfile()` class method to parse a
+standard MIDI file.
 
-You can then use several convenience methods of the returned
-`MidiSequence` instance to access information about the midi file
-properties or events.
+You can then use several convenience methods of the returned `MidiSequence`
+instance to access information about the midi file properties or events.
 
 ```py
 from miditk.smf import MidiSequence
@@ -160,14 +156,13 @@ for time, group in sequence.events_by_time():
 
 ### Changing MIDI events in-stream
 
-The event-based parsing allows to handle MIDI events as they are read
-(or received via MIDI in). You need to define a sub-class of
-`miditk.smf.BaseMidiEventHandler` or `miditk.smf.NullMidiEventHandler`
-and overwrite only the event handling methods for the events you are
-interested in.
+The event-based parsing allows to handle MIDI events as they are read (or
+received via MIDI in). You need to define a sub-class of
+`miditk.smf.BaseMidiEventHandler` or `miditk.smf.NullMidiEventHandler` and
+overwrite only the event handling methods for the events you are interested in.
 
-The following example transposes all note on/off events by an octave
-(i.e. 12 semitones):
+The following example transposes all note on/off events by an octave (i.e. 12
+semitones):
 
 ```py
 import sys
@@ -229,16 +224,16 @@ Run the tests via tox for all Python versions configured in \`tox.ini\`:
 tox
 ```
 
-If all is well, create a new git branch and start hacking and then
-contribute your changes by opening a [pull
+If all is well, create a new git branch and start hacking and then contribute
+your changes by opening a [pull
 request](https://github.com/SpotlightKid/miditk-smf/pulls) on GitHub.
 
 
 ## Code QA
 
-The included Makefile is set up to run several Python static code
-checking and reporting tools. To print a list of available Makefile
-targets and the tools they run, simple run:
+The included Makefile is set up to run several Python static code checking and
+reporting tools. To print a list of available Makefile targets and the tools
+they run, simple run:
 
 ```console
 $ make
@@ -250,21 +245,30 @@ Then run the Makefile target of your choice, e.g.:
 make flake8
 ```
 
-Unless noted otherwise, these targets run all tools directly, i.e.
-without tox, which means they need to be installed in your Python
-environment, preferably in a project-specific virtual environment. To
-create a virtual environment and install all supported tools and their
-dependencies run:
+Unless noted otherwise, these targets run all tools directly, i.e. without tox,
+which means they need to be installed in your Python environment. You can use
+[hatch] to create a virtual environments for general development tasks or for
+specific tasks as, for example, building the documentation. Dependencies and
+tools needed for these tasks will be installed automatically into these
+environments on creation:
+
+To show which special enviroments are defined:
 
 ```console
-mkvirtualenv miditk-smf
-(miditk-smf)$ pip install -r requirements/dev.txt
+hatch env show
 ```
+
+To create and enter e.g. the "dev" enviroment:
+
+```console
+hatch --env dev hell
+```
+
 
 ## Documentation
 
-Package documentation is generated by Sphinx. The documentation can be
-build with:
+Package documentation is generated by Sphinx. The documentation can be build
+with:
 
 ```console
 make docs
@@ -276,8 +280,8 @@ browser.
 
 ## Authors and License
 
-The `miditk` package is written by Christopher Arndt and licensed under
-the MIT License.
+The `miditk` package is written by Christopher Arndt and licensed under the MIT
+License.
 
 The the structure of the `miditk.smf` sub-package owes inspiration to the
 [python midi package](http://www.mxm.dk/products/public/pythonmidi/),
