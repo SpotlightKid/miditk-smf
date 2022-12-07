@@ -17,7 +17,7 @@ sequence = MidiSequence.fromfile(sys.argv[1])
 
 # Print some info from the MIDI file header,
 # e.g. number of tracks, events sequence name.
-print("Sequence: ",sequence)
+print("Sequence: ", sequence)
 
 
 # Print a list of events with event type, data and timestamp
@@ -30,7 +30,7 @@ sequence.dump_events()
 # in all tracks.
 print("Sysex msgs in all tracks:")
 for ev in sequence.sysex_events(track=0):
-    print("Sysex event (%i bytes) @ %.2f" (len(ev.data), ev.timestamp))
+    print("Sysex event (%i bytes) @ %.2f" % (len(ev.data), ev.timestamp))
 
 
 print("Print events sorted by timestamp:")
