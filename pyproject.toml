@@ -54,3 +54,7 @@ dependencies = [
 [project.urls]
 "Homepage" = "https://github.com/SpotlightKid/miditk-smf"
 "Bug Tracker" = "https://github.com/SpotlightKid/miditk-smf/issues"
+
+
+[project.scripts]
+miditk-midi2syx = "miditk.smf.scripts.mid2syx:main"
