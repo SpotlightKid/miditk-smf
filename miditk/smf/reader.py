@@ -5,8 +5,6 @@
 
 from io import BytesIO
 
-from six import string_types, text_type
-
 # package-specific imports
 from .api import NullMidiEventHandler
 from .parser import MidiFileParser
@@ -23,7 +21,7 @@ class MidiFileReader(object):
 
     def read(self, strict=True):
         """Start parsing the file."""
-        if isinstance(self.infile, string_types):
+        if isinstance(self.infile, str):
             self.infile = open(self.infile, "rb")
             should_close = True
         else:
@@ -40,7 +38,7 @@ class MidiFileReader(object):
 
     def set_data(self, data="", encoding="UTF-8"):
         """Set parser data from a plain or byte string."""
-        if isinstance(data, text_type):
+        if isinstance(data, str):
             data = data.decode(encoding)
 
         try:

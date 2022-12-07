@@ -5,8 +5,6 @@
 
 from io import BytesIO
 
-from six import text_type
-
 from ..common.constants import (
     ACTIVE_SENSING,
     CHANNEL_PRESSURE,
@@ -75,7 +73,7 @@ class BaseMidiFileWriter(object):
 
     def meta_slice(self, meta_type, data=b""):
         """Write a meta event."""
-        if isinstance(data, text_type):
+        if isinstance(data, str):
             data = data.encode(self.encoding, errors="surrogateescape")
 
         self.event_slice(tobytestr([META_EVENT, meta_type]) + write_varlen(len(data)) + data)
@@ -88,7 +86,7 @@ class BaseMidiFileWriter(object):
 
     def _write(self, data):
         """Write the next text slice to the raw data."""
-        if isinstance(data, text_type):
+        if isinstance(data, str):
             data = data.encode()
 
         if self._track_buffer is not None:

@@ -57,9 +57,6 @@ classifiers = [
     "Topic :: Utilities",
 ]
 requires-python = ">=3.7"
-dependencies = [
-    "six",
-]
 
 
 [project.urls]

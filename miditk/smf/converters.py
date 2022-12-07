@@ -16,7 +16,6 @@ __all__ = (
 # _speedups module not available
 from struct import pack, unpack
 
-from six import iterbytes, text_type
 
 if isinstance(b"", str):
 
@@ -61,8 +60,8 @@ def read_bew(value):
 def read_varlen(value):
     """Convert variable length data format to integer.
 
-    Just pass it 0 or more chars that might be a varlen and it will only use
-    the relevant chars.
+    Just pass a bytes instance with 0 or more chars that might be a varlen
+    and it will only use the relevant chars.
 
     Use sizeof_varlen(value) to see how many bytes the integer value takes.
 
@@ -75,7 +74,7 @@ def read_varlen(value):
 
     """
     sum = 0
-    for byte in iterbytes(value):
+    for byte in value:
         sum = (sum << 7) + (byte & 0x7F)
 
         if not 0x80 & byte:
@@ -99,7 +98,7 @@ def sizeof_varlen(value):
 
 def tobytestr(value, encoding="latin1"):
     """Convert given string or sequence of integers to a byte string."""
-    if isinstance(value, text_type):
+    if isinstance(value, str):
         value = value.encode(encoding)
     elif isinstance(value, (list, tuple)):
         value = _tobytes(*value)
@@ -110,7 +109,7 @@ def tobytestr(value, encoding="latin1"):
 
 def tointseq(value, encoding="latin1"):
     """Convert a bytes/str/unicode instance into a tuple of int byte values."""
-    if isinstance(value, text_type):
+    if isinstance(value, str):
         value = value.encode(encoding)
     return tuple(_ord(c) for c in value)
 
