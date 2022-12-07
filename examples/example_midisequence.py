@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Parse a standard MIDI file into a MidiSequence instance
 
 MidiSequence is a container for a sequence of timed MidiEvent instances,

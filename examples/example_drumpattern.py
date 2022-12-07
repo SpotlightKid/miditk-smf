@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Example script which creates a type 0 midi file with a simple drum 4/4 pattern.
 
 All midi events are in the same track chunk on channel 9 (the midi channel

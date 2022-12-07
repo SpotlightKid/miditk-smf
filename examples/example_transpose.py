@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Example script which transposes all note on/off event by one octave."""
 
 from os.path import abspath, dirname, join

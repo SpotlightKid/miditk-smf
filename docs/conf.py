@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #
 # miditk documentation build configuration file
 #

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Example script which uses the PrintingMidiEventHandler.
 
 When an event is passed to this handler, it prints information about the event to the console.
