@@ -15,7 +15,7 @@ from .api import NullMidiEventHandler
 from .parser import MidiFileParser
 
 
-__all__ = ('MidiFileReader',)
+__all__ = ("MidiFileReader",)
 
 
 class MidiFileReader(object):
@@ -28,20 +28,21 @@ class MidiFileReader(object):
     def read(self, strict=True):
         """Start parsing the file."""
         if isinstance(self.infile, string_types):
-            self.infile = open(self.infile, 'rb')
+            self.infile = open(self.infile, "rb")
             should_close = True
         else:
             should_close = False
 
-        self.parser = MidiFileParser(self.infile, self.handler or NullMidiEventHandler,
-                                     strict=strict)
+        self.parser = MidiFileParser(
+            self.infile, self.handler or NullMidiEventHandler, strict=strict
+        )
         self.parser.parse_header()
         self.parser.parse_tracks()
 
         if should_close:
             self.infile.close()
 
-    def set_data(self, data='', encoding='UTF-8'):
+    def set_data(self, data="", encoding="UTF-8"):
         """Set parser data from a plain or byte string."""
         if isinstance(data, text_type):
             data = data.decode(encoding)

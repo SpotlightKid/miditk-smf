@@ -10,14 +10,26 @@ from __future__ import absolute_import, unicode_literals
 import logging
 
 # package-specific imports
-from ..common.constants import (CHANNEL_PRESSURE, CONTROLLER_CHANGE, END_OF_EXCLUSIVE,
-                                ESCAPE_SEQUENCE, META_EVENT, MTC, NOTE_OFF, NOTE_ON, PITCH_BEND,
-                                POLY_PRESSURE, PROGRAM_CHANGE, SONG_POSITION_POINTER, SONG_SELECT,
-                                SYSTEM_EXCLUSIVE)
+from ..common.constants import (
+    CHANNEL_PRESSURE,
+    CONTROLLER_CHANGE,
+    END_OF_EXCLUSIVE,
+    ESCAPE_SEQUENCE,
+    META_EVENT,
+    MTC,
+    NOTE_OFF,
+    NOTE_ON,
+    PITCH_BEND,
+    POLY_PRESSURE,
+    PROGRAM_CHANGE,
+    SONG_POSITION_POINTER,
+    SONG_SELECT,
+    SYSTEM_EXCLUSIVE,
+)
 from .api import MidiEvent
 from .converters import read_bew, read_varlen, sizeof_varlen, tointseq
 
-__all__ = ('MidiFileParser', 'ParseError')
+__all__ = ("MidiFileParser", "ParseError")
 log = logging.getLogger(__name__)
 
 
@@ -64,11 +76,7 @@ class MidiFileParser(object):
         PROGRAM_CHANGE: 1,
     }
 
-    system_data_sizes = {
-        MTC: 1,
-        SONG_POSITION_POINTER: 2,
-        SONG_SELECT: 1
-    }
+    system_data_sizes = {MTC: 1, SONG_POSITION_POINTER: 2, SONG_SELECT: 1}
 
     def __init__(self, instream, handler=None, strict=True):
         """Initialize object.
@@ -127,7 +135,7 @@ class MidiFileParser(object):
         instream = self.instream
 
         # check if it is a proper midi file
-        if chunk_id != b'MThd':
+        if chunk_id != b"MThd":
             raise ParseError("Invalid MIDI file header. Chunk identifier must be 'MThd'.")
 
         # Header values are at fixed locations, so no reason to be clever
@@ -135,8 +143,10 @@ class MidiFileParser(object):
         self.num_tracks = read_bew(instream.read(2))
 
         if self.format == 0 and self.num_tracks > 1:
-            msg = ("Invalid number of tracks (%i). Type 0 midi files may only "
-                   "contain a single track." % self.num_tracks)
+            msg = (
+                "Invalid number of tracks (%i). Type 0 midi files may only "
+                "contain a single track." % self.num_tracks
+            )
 
             if self.strict:
                 raise ParseError(msg)
@@ -156,17 +166,23 @@ class MidiFileParser(object):
         # but no one has seen one in the wild.
         # We will correctly ignore unknown data if present, though.
         if chunk_len > 6:
-            log.warning("Invalid header size (%i). Skipping trailing header "
-                        "bytes", chunk_len)
+            log.warning("Invalid header size (%i). Skipping trailing header " "bytes", chunk_len)
             instream.seek(chunk_len - 6, 1)
 
         # call the header event handler on the stream
         if metrical:
-            self.dispatch('header', self.format, self.num_tracks, metrical=True,
-                          tick_division=division)
+            self.dispatch(
+                "header", self.format, self.num_tracks, metrical=True, tick_division=division
+            )
         else:
-            self.dispatch('header', self.format, self.num_tracks, metrical=False,
-                          fps=fps, frame_resolution=resolution)
+            self.dispatch(
+                "header",
+                self.format,
+                self.num_tracks,
+                metrical=False,
+                fps=fps,
+                frame_resolution=resolution,
+            )
 
     def parse_track(self, chunk_id, chunk_len):
         """Parse a track chunk.
@@ -181,7 +197,7 @@ class MidiFileParser(object):
         dispatch = self.dispatch
 
         # check for proper chunk type
-        if chunk_id != b'MTrk':
+        if chunk_id != b"MTrk":
             raise ParseError("Invalid track chunk identifier '%s', must be 'MTrk'.", chunk_id)
 
         if self._current_track is None:
@@ -190,8 +206,10 @@ class MidiFileParser(object):
             self._current_track += 1
 
         if self._current_track >= self.num_tracks:
-            msg = ("Supernumerous track no. %i found. Header says there should "
-                   "be only %i tracks." % (self._current_track + 1, self.num_tracks))
+            msg = (
+                "Supernumerous track no. %i found. Header says there should "
+                "be only %i tracks." % (self._current_track + 1, self.num_tracks)
+            )
 
             if self.strict:
                 raise ParseError(msg)
@@ -200,8 +218,8 @@ class MidiFileParser(object):
 
         # Trigger event at the start of a track
         # set time to 0 at start of a track
-        dispatch('reset_ticks')
-        dispatch('start_of_track', self._current_track)
+        dispatch("reset_ticks")
+        dispatch("start_of_track", self._current_track)
         # absolute position!
         track_endposition = instream.tell() + chunk_len
 
@@ -211,7 +229,7 @@ class MidiFileParser(object):
             instream.seek(sizeof_varlen(ticks) - 4, 1)
 
             if ticks > 0:
-                dispatch('update_ticks', ticks)
+                dispatch("update_ticks", ticks)
 
             # be aware of running status!
             status = ord(instream.read(1))
@@ -226,9 +244,11 @@ class MidiFileParser(object):
                     status = self._running_status
                     instream.seek(-1, 1)
                 else:
-                    msg = ("Non-status byte 0x%02X encountered at offset %i "
-                           "while expecting a status byte and no running status "
-                           "in effect.")
+                    msg = (
+                        "Non-status byte 0x%02X encountered at offset %i "
+                        "while expecting a status byte and no running status "
+                        "in effect."
+                    )
                     offset = instream.tell()
 
                     if self.strict:
@@ -249,7 +269,7 @@ class MidiFileParser(object):
                 self._running_status = None
                 event.meta_type = ord(instream.read(1))
                 event.size, event.data = _read_event_data(instream)
-                dispatch('meta_event', event)
+                dispatch("meta_event", event)
 
             # Is it a sysex event?
             elif status == SYSTEM_EXCLUSIVE:
@@ -265,7 +285,7 @@ class MidiFileParser(object):
                 else:
                     self._sysex_continuation = False
 
-                dispatch('sysex_event', event)
+                dispatch("sysex_event", event)
 
             # Escape sequence or sysex continuation message
             elif status == END_OF_EXCLUSIVE:
@@ -278,10 +298,10 @@ class MidiFileParser(object):
                     if event.data[-1] == END_OF_EXCLUSIVE:
                         self._sysex_continuation = False
 
-                    dispatch('sysex_event', event)
+                    dispatch("sysex_event", event)
                 else:
                     event.type = ESCAPE_SEQUENCE
-                    dispatch('escape_sequence', event)
+                    dispatch("escape_sequence", event)
 
             elif 0xF1 <= status <= 0xFE:
                 # Invalid system common or system real time message
@@ -289,7 +309,7 @@ class MidiFileParser(object):
                 event.data_size = self.system_data_sizes.get(status, 0)
                 event.data = instream.read(event.data_size)
                 event.type = status
-                dispatch('invalid_event', event)
+                dispatch("invalid_event", event)
 
             # Otherwise it must be a channel voice message
             else:
@@ -297,7 +317,7 @@ class MidiFileParser(object):
                 event.channel = status & 0xF
                 event.data_size = self.channel_data_sizes.get(type_, 0)
                 event.data = instream.read(event.data_size)
-                dispatch('channel_message_event', event)
+                dispatch("channel_message_event", event)
 
     def parse_tracks(self):
         """Parse all track chunks."""
@@ -307,28 +327,28 @@ class MidiFileParser(object):
             except EOFError:
                 break
             else:
-                if chunk_id == b'MTrk':
+                if chunk_id == b"MTrk":
                     self.parse_track(chunk_id, chunk_len)
                 else:
                     self.instream.seek(chunk_len, 1)
 
-        self.dispatch('eof')
+        self.dispatch("eof")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from miditk.smf.api import PrintingMidiEventHandler
 
     # get data
     test_files = (
-        'tests/testdata/minimal.mid',
-        'tests/testdata/minimal-cubase-type0.mid',
-        'tests/testdata/minimal-cubase-type1.mid',
+        "tests/testdata/minimal.mid",
+        "tests/testdata/minimal-cubase-type0.mid",
+        "tests/testdata/minimal-cubase-type1.mid",
     )
 
     # do parsing
     for test_file in test_files:
-        with open(test_file, 'rb') as midi_file:
+        with open(test_file, "rb") as midi_file:
             midi_in = MidiFileParser(midi_file, PrintingMidiEventHandler())
             midi_in.parse_header()
             midi_in.parse_tracks()
-            print('')
+            print("")

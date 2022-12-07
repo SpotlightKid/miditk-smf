@@ -7,8 +7,14 @@ build-backend = "hatchling.build"
 path = "miditk/smf/version.py"
 pattern = "version = \"(?P<version>.*?)\""
 
+
 [tool.hatch.build.targets.wheel]
 packages = ["miditk"]
+
+
+[tool.black]
+line-length = 99
+
 
 [project]
 dynamic = ["version"]

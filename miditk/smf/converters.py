@@ -5,13 +5,13 @@
 """Functions for reading and writing the special data types in a MIDI file."""
 
 __all__ = (
-    'read_bew',
-    'read_varlen',
-    'sizeof_varlen',
-    'tointseq',
-    'tobytestr',
-    'write_bew',
-    'write_varlen'
+    "read_bew",
+    "read_varlen",
+    "sizeof_varlen",
+    "tointseq",
+    "tobytestr",
+    "write_bew",
+    "write_varlen",
 )
 
 # _speedups module not available
@@ -20,10 +20,13 @@ from struct import pack, unpack
 from six import iterbytes, text_type
 
 
-if isinstance(b'', str):
+if isinstance(b"", str):
+
     def _tobytes(*values):
         return "".join(chr(c) for c in values)
+
 else:
+
     def _tobytes(*values):
         return bytes(values)
 
@@ -52,9 +55,9 @@ def read_bew(value):
     if lval == 1:
         return _ord(value)
     elif lval == 2:
-        return unpack('>H', value)[0]
+        return unpack(">H", value)[0]
     else:
-        return unpack('>L', value)[0]
+        return unpack(">L", value)[0]
 
 
 def read_varlen(value):
@@ -96,7 +99,7 @@ def sizeof_varlen(value):
         return 4
 
 
-def tobytestr(value, encoding='latin1'):
+def tobytestr(value, encoding="latin1"):
     """Convert given string or sequence of integers to a byte string."""
     if isinstance(value, text_type):
         value = value.encode(encoding)
@@ -107,7 +110,7 @@ def tobytestr(value, encoding='latin1'):
     return value
 
 
-def tointseq(value, encoding='latin1'):
+def tointseq(value, encoding="latin1"):
     """Convert a bytes/str/unicode instance into a tuple of int byte values."""
     if isinstance(value, text_type):
         value = value.encode(encoding)
@@ -126,9 +129,9 @@ def write_bew(value, length):
     if length == 1:
         return _tobytes(value)
     elif length == 2:
-        return pack('>H', value)
+        return pack(">H", value)
     else:
-        return pack('>L', value)
+        return pack(">L", value)
 
 
 def write_varlen(value):
@@ -137,5 +140,7 @@ def write_varlen(value):
     if nbytes == 1:
         return _tobytes(value)
     else:
-        return b"".join(_tobytes(((value >> ((i - 1) * 7)) | 0x80) & (0xFF if i > 1 else 0x7F))
-                        for i in range(nbytes, 0, -1))
+        return b"".join(
+            _tobytes(((value >> ((i - 1) * 7)) | 0x80) & (0xFF if i > 1 else 0x7F))
+            for i in range(nbytes, 0, -1)
+        )

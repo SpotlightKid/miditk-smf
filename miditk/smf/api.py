@@ -7,27 +7,45 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 # package-specific imports
-from ..common.constants import (CHANNEL_PRESSURE, CONTROLLER_CHANGE, COPYRIGHT, CUEPOINT,
-                                DEVICE_NAME, END_OF_EXCLUSIVE, END_OF_TRACK, INSTRUMENT_NAME,
-                                KEY_SIGNATURE, LYRIC, MARKER, META_EVENT, MIDI_CH_PREFIX,
-                                MIDI_PORT, NOTE_OFF, NOTE_ON, PITCH_BEND, POLYPHONIC_PRESSURE,
-                                PROGRAM_CHANGE, PROGRAM_NAME, SEQUENCE_NAME, SEQUENCE_NUMBER,
-                                SEQUENCER_SPECIFIC, SMTP_OFFSET, SYSTEM_EXCLUSIVE, TEMPO, TEXT,
-                                TIME_SIGNATURE)
+from ..common.constants import (
+    CHANNEL_PRESSURE,
+    CONTROLLER_CHANGE,
+    COPYRIGHT,
+    CUEPOINT,
+    DEVICE_NAME,
+    END_OF_EXCLUSIVE,
+    END_OF_TRACK,
+    INSTRUMENT_NAME,
+    KEY_SIGNATURE,
+    LYRIC,
+    MARKER,
+    META_EVENT,
+    MIDI_CH_PREFIX,
+    MIDI_PORT,
+    NOTE_OFF,
+    NOTE_ON,
+    PITCH_BEND,
+    POLYPHONIC_PRESSURE,
+    PROGRAM_CHANGE,
+    PROGRAM_NAME,
+    SEQUENCE_NAME,
+    SEQUENCE_NUMBER,
+    SEQUENCER_SPECIFIC,
+    SMTP_OFFSET,
+    SYSTEM_EXCLUSIVE,
+    TEMPO,
+    TEXT,
+    TIME_SIGNATURE,
+)
 from .converters import read_bew, tointseq, write_varlen
 
-__all__ = (
-    'BaseMidiEventHandler',
-    'MidiEvent',
-    'NullMidiEventHandler',
-    'PrintingMidiEventHandler'
-)
+__all__ = ("BaseMidiEventHandler", "MidiEvent", "NullMidiEventHandler", "PrintingMidiEventHandler")
 
 
 class MidiEvent(object):
     def __init__(self, type_=META_EVENT, track=0):
         self.channel = None
-        self.data = b''
+        self.data = b""
         self.meta_type = None
         self.size = 0
         self.track = track
@@ -44,7 +62,7 @@ class MidiEvent(object):
         elif self.meta_type:
             s += " type=%02X data=%r" % (self.meta_type, tointseq(self.data))
 
-        return s + '>'
+        return s + ">"
 
     def to_bytes(self):
         """Return event data as a byte string ready to be written to an SMF stream."""
@@ -75,7 +93,7 @@ class BaseMidiEventHandler(object):
 
     """
 
-    def __init__(self, encoding='UTF-8'):
+    def __init__(self, encoding="UTF-8"):
         """Initialize event dispatcher with given output event handler."""
         self.encoding = encoding
         self.absolute_time = 0
@@ -97,8 +115,9 @@ class BaseMidiEventHandler(object):
     #############################
     ## MIDI file header handler
 
-    def header(self, format, num_tracks, tick_division=96, metrical=True,
-               fps=0xE7, frame_resolution=0x28):
+    def header(
+        self, format, num_tracks, tick_division=96, metrical=True, fps=0xE7, frame_resolution=0x28
+    ):
         """Handle file header event.
 
         :param int format: type of midi file in [0, 1, 2]
@@ -629,61 +648,73 @@ class PrintingMidiEventHandler(NullMidiEventHandler):
     #########################
     ## File events
 
-    def header(self, format=0, num_tracks=1, tick_division=96, metrical=True,
-               fps=0xE7, frame_resolution=0x28):
+    def header(
+        self,
+        format=0,
+        num_tracks=1,
+        tick_division=96,
+        metrical=True,
+        fps=0xE7,
+        frame_resolution=0x28,
+    ):
         if metrical:
-            print('format: %s, no. of tracks: %i, tick division: %i ppqn' %
-                  (format, num_tracks, tick_division))
+            print(
+                "format: %s, no. of tracks: %i, tick division: %i ppqn"
+                % (format, num_tracks, tick_division)
+            )
         else:
-            print('format: %s, no. of tracks: %i, fps: %i, resolution: %i' %
-                  (format, num_tracks, fps, frame_resolution))
-        print('-' * 60)
-        print('')
+            print(
+                "format: %s, no. of tracks: %i, fps: %i, resolution: %i"
+                % (format, num_tracks, fps, frame_resolution)
+            )
+        print("-" * 60)
+        print("")
 
     def eof(self):
-        print('End of file')
+        print("End of file")
 
     def start_of_track(self, track=0):
         super(PrintingMidiEventHandler, self).start_of_track(track)
-        print('Start of track #%s' % track)
+        print("Start of track #%s" % track)
 
     #############################
     ## Channel events
 
     def channel_pressure(self, channel, pressure):
-        print('Channel pressure - ch:%02i, pressure=%02Xh' %
-              (channel, pressure))
+        print("Channel pressure - ch:%02i, pressure=%02Xh" % (channel, pressure))
 
     def controller_change(self, channel, controller, value):
-        print('Controller - ch: %02i, cont:%02Xh, value:%02Xh' %
-              (channel, controller, value))
+        print("Controller - ch: %02i, cont:%02Xh, value:%02Xh" % (channel, controller, value))
 
     def note_off(self, channel=0, note=0x40, velocity=0x40):
-        print('Note off - ch:%02i, note:%02Xh, vel:%02Xh time:%s' %
-              (channel, note, velocity, self.relative_time))
+        print(
+            "Note off - ch:%02i, note:%02Xh, vel:%02Xh time:%s"
+            % (channel, note, velocity, self.relative_time)
+        )
 
     def note_on(self, channel=0, note=0x40, velocity=0x40):
-        print('Note on - ch:%02i, note:%02Xh, vel:%02Xh time:%s' %
-              (channel, note, velocity, self.relative_time))
+        print(
+            "Note on - ch:%02i, note:%02Xh, vel:%02Xh time:%s"
+            % (channel, note, velocity, self.relative_time)
+        )
 
     def pitch_bend(self, channel, value):
-        print('Pitch bend - ch:%02s, value:%02Xh' % (channel, value))
+        print("Pitch bend - ch:%02s, value:%02Xh" % (channel, value))
 
     def poly_pressure(self, channel=0, note=0x40, pressure=0x40):
-        print('Poly pressure - ch: %02i, note:%02Xh, pressure:%02Xh' %
-              (channel, note, pressure))
+        print("Poly pressure - ch: %02i, note:%02Xh, pressure:%02Xh" % (channel, note, pressure))
 
     def program_change(self, channel, program):
-        print('Program change - ch:%02i, program:%02Xh' % (channel, program))
+        print("Program change - ch:%02i, program:%02Xh" % (channel, program))
 
     def unknown_channel_message(self, status, data):
-        print('Unknown channel message - status:%s, data:%r' % (status, data))
+        print("Unknown channel message - status:%s, data:%r" % (status, data))
 
     ###############
     ## sysex event
 
     def system_exclusive(self, data):
-        print('System exclusive message - size:%i' % (len(data) + 1))
+        print("System exclusive message - size:%i" % (len(data) + 1))
 
     #####################
     ## meta events
@@ -698,25 +729,24 @@ class PrintingMidiEventHandler(NullMidiEventHandler):
         print("Device name - '%s'" % text.decode(self.encoding))
 
     def end_of_track(self, track=None):
-        print('End of track #%s' % track)
-        print('')
+        print("End of track #%s" % track)
+        print("")
 
     def instrument_name(self, text):
         print("Instrument name - '%s'" % text.decode(self.encoding))
 
     def key_signature(self, sf, mi):
-        keys = ('Cb', 'Gb', 'Db', 'Ab', 'Eb', 'Bb', 'F',
-                'C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#')
-        print('Key signature - %s %s' % (keys[sf + 7], 'minor' if mi else 'major'))
+        keys = ("Cb", "Gb", "Db", "Ab", "Eb", "Bb", "F", "C", "G", "D", "A", "E", "B", "F#", "C#")
+        print("Key signature - %s %s" % (keys[sf + 7], "minor" if mi else "major"))
 
     def marker(self, text):
         print("Marker - '%s'" % text.decode(self.encoding))
 
     def midi_ch_prefix(self, channel):
-        print('MIDI channel prefix - ch:%02i' % channel)
+        print("MIDI channel prefix - ch:%02i" % channel)
 
     def midi_port(self, port):
-        print('MIDI port - port:%i' % port)
+        print("MIDI port - port:%i" % port)
 
     def lyric(self, text):
         print("Lyric - '%s'" % text.decode(self.encoding))
@@ -728,24 +758,22 @@ class PrintingMidiEventHandler(NullMidiEventHandler):
         print("Sequence name - '%s'" % text.decode(self.encoding))
 
     def sequence_number(self, number):
-        print('Sequence number - no.:%i' % number)
+        print("Sequence number - no.:%i" % number)
 
     def sequencer_specific(self, data):
-        print('Sequencer specific - size:%i' % len(data))
+        print("Sequencer specific - size:%i" % len(data))
 
     def smtp_offset(self, hour, minute, second, frame, framePart):
-        print('SMTP offset - %02i:%02i:%02i.%i/%i' %
-              (hour, minute, second, frame, framePart))
+        print("SMTP offset - %02i:%02i:%02i.%i/%i" % (hour, minute, second, frame, framePart))
 
     def tempo(self, value):
-        print('Tempo - val:%i (%.2f bpm)' % (value, 60000000.00 / value))
+        print("Tempo - val:%i (%.2f bpm)" % (value, 60000000.00 / value))
 
     def text(self, text):
         print("Text - '%s'" % text.decode(self.encoding))
 
     def time_signature(self, nn, dd, cc, bb):
-        print('Time signature - %i/%i %i %i' % (nn, 2**dd, cc, bb))
+        print("Time signature - %i/%i %i %i" % (nn, 2**dd, cc, bb))
 
     def unknown_meta_event(self, meta_type, data):
-        print('Unknown meta event - type:%s, size:%i' %
-              (meta_type, len(data)))
+        print("Unknown meta event - type:%s, size:%i" % (meta_type, len(data)))

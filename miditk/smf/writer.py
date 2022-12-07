@@ -10,29 +10,62 @@ from io import BytesIO
 
 from six import text_type
 
-from ..common.constants import (ACTIVE_SENSING, CHANNEL_PRESSURE, CONTROLLER_CHANGE, COPYRIGHT,
-                                CUEPOINT, END_OF_EXCLUSIVE, END_OF_TRACK, ESCAPE_SEQUENCE, FPS_25,
-                                INSTRUMENT_NAME, KEY_SIGNATURE, LYRIC, MARKER, META_EVENT,
-                                MIDI_CH_PREFIX, MIDI_TIME_CODE, MONO_PRESSURE, NOTE_OFF, NOTE_ON,
-                                PITCH_BEND, PROGRAM_CHANGE, SEQUENCE_NAME, SEQUENCE_NUMBER,
-                                SEQUENCER_SPECIFIC, SMTP_OFFSET, SONG_CONTINUE,
-                                SONG_POSITION_POINTER, SONG_SELECT, SONG_START, SONG_STOP,
-                                SYSTEM_EXCLUSIVE, TEMPO, TEXT, TIME_SIGNATURE, TIMING_CLOCK,
-                                TRACK_HEADER, TUNING_REQUEST)
+from ..common.constants import (
+    ACTIVE_SENSING,
+    CHANNEL_PRESSURE,
+    CONTROLLER_CHANGE,
+    COPYRIGHT,
+    CUEPOINT,
+    END_OF_EXCLUSIVE,
+    END_OF_TRACK,
+    ESCAPE_SEQUENCE,
+    FPS_25,
+    INSTRUMENT_NAME,
+    KEY_SIGNATURE,
+    LYRIC,
+    MARKER,
+    META_EVENT,
+    MIDI_CH_PREFIX,
+    MIDI_TIME_CODE,
+    MONO_PRESSURE,
+    NOTE_OFF,
+    NOTE_ON,
+    PITCH_BEND,
+    PROGRAM_CHANGE,
+    SEQUENCE_NAME,
+    SEQUENCE_NUMBER,
+    SEQUENCER_SPECIFIC,
+    SMTP_OFFSET,
+    SONG_CONTINUE,
+    SONG_POSITION_POINTER,
+    SONG_SELECT,
+    SONG_START,
+    SONG_STOP,
+    SYSTEM_EXCLUSIVE,
+    TEMPO,
+    TEXT,
+    TIME_SIGNATURE,
+    TIMING_CLOCK,
+    TRACK_HEADER,
+    TUNING_REQUEST,
+)
 from .api import NullMidiEventHandler
 from .converters import tobytestr, write_bew, write_varlen
 
 
-__all__ = ('BaseMidiFileWriter', 'MidiFileWriter',)
+__all__ = (
+    "BaseMidiFileWriter",
+    "MidiFileWriter",
+)
 
 
 class BaseMidiFileWriter(object):
     """Base class for MidiFileWriter, which handles event serialization and file I/O."""
 
-    def __init__(self, fp, encoding='UTF-8'):
+    def __init__(self, fp, encoding="UTF-8"):
         self._file = fp
         self._track_buffer = None
-        super(BaseMidiFileWriter, self).__init__(encoding='UTF-8')
+        super(BaseMidiFileWriter, self).__init__(encoding="UTF-8")
 
     def event_slice(self, slc):
         """Write the event to the current track.
@@ -44,18 +77,18 @@ class BaseMidiFileWriter(object):
         self._write(slc)
         self.update_ticks()
 
-    def meta_slice(self, meta_type, data=b''):
+    def meta_slice(self, meta_type, data=b""):
         """Write a meta event."""
         if isinstance(data, text_type):
-            data = data.encode(self.encoding, errors='surrogateescape')
+            data = data.encode(self.encoding, errors="surrogateescape")
 
-        self.event_slice(tobytestr([META_EVENT, meta_type]) +
-                         write_varlen(len(data)) + data)
+        self.event_slice(tobytestr([META_EVENT, meta_type]) + write_varlen(len(data)) + data)
 
     def sysex_slice(self, data):
         sysex_len = write_varlen(len(data) + 1)
-        self.event_slice(tobytestr(SYSTEM_EXCLUSIVE) + sysex_len + data +
-                         tobytestr(END_OF_EXCLUSIVE))
+        self.event_slice(
+            tobytestr(SYSTEM_EXCLUSIVE) + sysex_len + data + tobytestr(END_OF_EXCLUSIVE)
+        )
 
     def _write(self, data):
         """Write the next text slice to the raw data."""
@@ -78,14 +111,21 @@ class BaseMidiFileWriter(object):
     #####################
     ## File (non-midi) events
 
-    def header(self, format=0, num_tracks=1, tick_division=96, metrical=True,
-               fps=FPS_25, frame_resolution=40):
+    def header(
+        self,
+        format=0,
+        num_tracks=1,
+        tick_division=96,
+        metrical=True,
+        fps=FPS_25,
+        frame_resolution=40,
+    ):
         """Add MIDI file header chunk.
 
         For params see :meth:`.BaseMidiEventHandler.header`.
 
         """
-        self._write('MThd')
+        self._write("MThd")
         self._write_bew(6, 4)  # header size
         self._write_bew(format, 2)
         self._write_bew(num_tracks, 2)
@@ -136,6 +176,7 @@ class MidiFileWriter(BaseMidiFileWriter, NullMidiEventHandler):
     corresponding methods there and in its base class :class:`.BaseMidiEventHandler`.
 
     """
+
     #####################
     ## Midi events
 
@@ -225,12 +266,11 @@ class MidiFileWriter(BaseMidiFileWriter, NullMidiEventHandler):
 
     def smtp_offset(self, hour, minute, second, frame, frame_part):
         """Handle SMTP offset meta event."""
-        self.meta_slice(SMTP_OFFSET,
-                        tobytestr([hour, minute, second, frame, frame_part]))
+        self.meta_slice(SMTP_OFFSET, tobytestr([hour, minute, second, frame, frame_part]))
 
     def tempo(self, value):
         """Handle tempo meta event."""
-        hb, mb, lb = (value >> 16 & 0xff), (value >> 8 & 0xff), (value & 0xff)
+        hb, mb, lb = (value >> 16 & 0xFF), (value >> 8 & 0xFF), (value & 0xFF)
         self.meta_slice(TEMPO, tobytestr([hb, mb, lb]))
 
     def text(self, text):
@@ -272,7 +312,7 @@ class MidiFileWriter(BaseMidiFileWriter, NullMidiEventHandler):
         :param int value: 0-16383
 
         """
-        lsb = (value & 0x7F)
+        lsb = value & 0x7F
         msb = (value >> 7) & 0x7F
         self.event_slice(tobytestr([ESCAPE_SEQUENCE, 3, SONG_POSITION_POINTER, lsb, msb]))
 
