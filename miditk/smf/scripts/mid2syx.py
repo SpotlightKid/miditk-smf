@@ -15,14 +15,13 @@ specified via an option (defaults to `msg_`).
 
 from __future__ import print_function
 
-import logging
 import argparse
+import logging
 import os
 import sys
 
 from miditk.common.constants import SYSTEM_EXCLUSIVE
 from miditk.smf import MidiSequence
-
 
 __version__ = "0.2"
 __usage__ = "Usage: mid2syx.py MIDIFILE"

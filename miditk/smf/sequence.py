@@ -27,7 +27,6 @@ from .api import BaseMidiEventHandler
 from .converters import tointseq
 from .reader import MidiFileReader
 
-
 __all__ = ("MidiSequence", "ObjectMidiEventHandler")
 log = logging.getLogger(__name__)
 

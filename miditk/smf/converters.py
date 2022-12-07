@@ -19,7 +19,6 @@ from struct import pack, unpack
 
 from six import iterbytes, text_type
 
-
 if isinstance(b"", str):
 
     def _tobytes(*values):

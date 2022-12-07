@@ -14,7 +14,6 @@ from six import string_types, text_type
 from .api import NullMidiEventHandler
 from .parser import MidiFileParser
 
-
 __all__ = ("MidiFileReader",)
 
 

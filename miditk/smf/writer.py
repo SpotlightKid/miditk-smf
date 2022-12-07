@@ -52,7 +52,6 @@ from ..common.constants import (
 from .api import NullMidiEventHandler
 from .converters import tobytestr, write_bew, write_varlen
 
-
 __all__ = (
     "BaseMidiFileWriter",
     "MidiFileWriter",

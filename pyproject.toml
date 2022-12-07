@@ -12,6 +12,11 @@ pattern = "version = \"(?P<version>.*?)\""
 packages = ["miditk"]
 
 
+[tool.isort]
+line_length = 99
+profile = "black"
+
+
 [tool.black]
 line-length = 99
 
