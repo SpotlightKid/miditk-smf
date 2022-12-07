@@ -1,8 +1,33 @@
 # Changelog
 
-## Development
+## 0.3.0 (in development)
 
-\[nothing yet\]
+Updates:
+
+-   Switched from 'setuptools` to PEP-517-compatible build setup using
+    `hatchling`.
+-   Removed Python 2 support (now requires Python >= 3.7).
+-   Removed `six` dependency.
+-   Removed requirements files.
+-   Converted README, LICENSE and CHANGELOG to Markdown format.
+
+Changes:
+
+-   Made `track` argument to `BaseMidiEventHandler.start_of_track` optional.
+-   Split `MidiFileWriter` into base class and event handler sub-class.
+    Base class handles event serialization and output.
+-   `MidiSequence` instances now save tempo and time/key signature events.
+-   `MidiSequence.fromfile` can now accept a custom handler class/instance.
+-   Added command-line script `miditk-midi2syx`.
+
+Fixes:
+
+-   Fixed writing sysex message events in `MidiFileWriter` (#7).
+-   Removed unused `dispatch_controllers` attribute in `BaseMidiEventHandler`.
+-   Fixed `MidiSequence` example in readme and added example script.
+-   Minor fixes: removed unused import; added geany project file to git ignores;
+    fixed code formatting issues.
+-   Reformated code with `black` and `isort`.
 
 ## 0.2.2 (2019-01-04)
 
