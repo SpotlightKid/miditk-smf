@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Example script which uses the PrintingMidiEventHandler.
 
 When an event is passed to this handler, it prints information about the event to the console.

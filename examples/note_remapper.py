@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Map note values of all note on/off events according to given mapping file."""
 
 from __future__ import absolute_import, print_function, unicode_literals

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding:utf-8 -*-
 """Write MIDI file with the following events:
 
 format: 0, # of tracks: 1, division: 480

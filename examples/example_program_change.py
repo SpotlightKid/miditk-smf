@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Example script which maps program change numbers."""
 
 from miditk.smf import MidiFileReader, MidiFileWriter

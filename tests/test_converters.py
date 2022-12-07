@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-
 import pytest
 
 from miditk.smf.converters import read_bew, read_varlen, tobytestr, write_bew, write_varlen
