@@ -1,15 +1,17 @@
 # Changelog
 
-## 0.3.0 (in development)
+## 0.3.0 (2022-12-08)
 
-Updates:
+Project updates:
 
--   Switched from 'setuptools` to PEP-517-compatible build setup using
+-   Switched from `setuptools` to PEP-517-compatible build setup using
     `hatchling`.
 -   Removed Python 2 support (now requires Python >= 3.7).
 -   Removed `six` dependency.
 -   Removed requirements files.
 -   Converted README, LICENSE and CHANGELOG to Markdown format.
+-   Added automatic testing and deployment of source distribution and
+    wheel to PyPI via GitHub actions.
 
 Changes:
 
@@ -18,7 +20,8 @@ Changes:
     Base class handles event serialization and output.
 -   `MidiSequence` instances now save tempo and time/key signature events.
 -   `MidiSequence.fromfile` can now accept a custom handler class/instance.
--   Added command-line script `miditk-midi2syx`.
+-   Added command-line script `miditk-mid2syx`.
+-   Updated examples and removed Python 2 compatibility idioms.
 
 Fixes:
 
