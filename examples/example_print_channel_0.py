@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """Example script which prints all note on events on MIDI channel 0."""
 
 import sys

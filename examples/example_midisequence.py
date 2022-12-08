@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Parse a standard MIDI file into a MidiSequence instance
 
 MidiSequence is a container for a sequence of timed MidiEvent instances,
@@ -17,7 +17,7 @@ sequence = MidiSequence.fromfile(sys.argv[1])
 
 # Print some info from the MIDI file header,
 # e.g. number of tracks, events sequence name.
-print("Sequence: ",sequence)
+print("Sequence: ", sequence)
 
 
 # Print a list of events with event type, data and timestamp
@@ -30,12 +30,12 @@ sequence.dump_events()
 # in all tracks.
 print("Sysex msgs in all tracks:")
 for ev in sequence.sysex_events(track=0):
-    print("Sysex event (%i bytes) @ %.2f" (len(ev.data), ev.timestamp))
+    print("Sysex event ({} bytes) @ {:.2}".format(len(ev.data), ev.timestamp))
 
 
 print("Print events sorted by timestamp:")
 # Iterate over all events sorted by timestamp and then track
 for time, group in sequence.events_by_time():
-    print("@%.2f:" % time)
+    print(f"\n@ {time:.2f}:")
     for ev in group:
-        print("%02X %s" % (ev.type, " ".join("%02X" % b for b in ev.data)))
+        print("- {:02X} {}".format(ev.type, " ".join(f"{b:02X}" for b in ev.data)))

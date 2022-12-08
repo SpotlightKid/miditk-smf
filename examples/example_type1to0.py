@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """Example script which converts a Type 1 SMF to Type 0 file."""
 
 import logging

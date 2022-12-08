@@ -1,7 +1,3 @@
-# -*- coding:utf-8 -*-
-
-from __future__ import print_function, unicode_literals
-
 import sys
 from io import StringIO
 from os.path import dirname, join

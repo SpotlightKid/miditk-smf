@@ -1,8 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """Map note values of all note on/off events according to given mapping file."""
-
-from __future__ import absolute_import, print_function, unicode_literals
 
 import argparse
 import csv
@@ -59,11 +56,11 @@ class NoteRemapper(MidiFileWriter):
 
     def note_on(self, channel=0, note=0x40, velocity=0x40):
         note = self.map_note(channel, note)
-        super(NoteRemapper, self).note_on(channel, note, velocity)
+        super().note_on(channel, note, velocity)
 
     def note_off(self, channel=0, note=0x40, velocity=0x40):
         note = self.map_note(channel, note)
-        super(NoteRemapper, self).note_off(channel, note, velocity)
+        super().note_off(channel, note, velocity)
 
 
 def main(args=None):

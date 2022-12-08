@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Definitions of midi events, controller numbers and parameters."""
 
 ###################################################
@@ -182,25 +181,25 @@ END_OF_EXCLUSIVE = 0xF7
 ###################################################
 # Midifile meta-events
 
-SEQUENCE_NUMBER = 0x00      # 00 02 ss ss (seq-number)
-TEXT = 0x01                 # 01 len text...
-COPYRIGHT = 0x02            # 02 len text...
-SEQUENCE_NAME = 0x03        # 03 len text...
-INSTRUMENT_NAME = 0x04      # 04 len text...
-LYRIC = 0x05                # 05 len text...
-MARKER = 0x06               # 06 len text...
-CUEPOINT = 0x07             # 07 len text...
-PROGRAM_NAME = 0x08         # 08 len text...
-DEVICE_NAME = 0x09          # 09 len text...
-MIDI_CH_PREFIX = 0x20       # MIDI channel prefix assignment (deprecated)
-MIDI_PORT = 0x21            # 21 01 port, deprecated but still used
-END_OF_TRACK = 0x2F         # 2f 00
-TEMPO = 0x51                # 51 03 tt tt tt (tempo in µs/quarternote)
-SMTP_OFFSET = 0x54          # 54 05 hh mm ss ff xx
-TIME_SIGNATURE = 0x58       # 58 04 nn dd cc bb
-KEY_SIGNATURE = 0x59        # 59 02 sf mi (sf = number of sharps(+) or flats(-)
-                            # mi = major(0) or minor (1))
-SEQUENCER_SPECIFIC = 0x7F   # Sequencer specific event
+SEQUENCE_NUMBER = 0x00  # 00 02 ss ss (seq-number)
+TEXT = 0x01  # 01 len text...
+COPYRIGHT = 0x02  # 02 len text...
+SEQUENCE_NAME = 0x03  # 03 len text...
+INSTRUMENT_NAME = 0x04  # 04 len text...
+LYRIC = 0x05  # 05 len text...
+MARKER = 0x06  # 06 len text...
+CUEPOINT = 0x07  # 07 len text...
+PROGRAM_NAME = 0x08  # 08 len text...
+DEVICE_NAME = 0x09  # 09 len text...
+MIDI_CH_PREFIX = 0x20  # MIDI channel prefix assignment (deprecated)
+MIDI_PORT = 0x21  # 21 01 port, deprecated but still used
+END_OF_TRACK = 0x2F  # 2f 00
+TEMPO = 0x51  # 51 03 tt tt tt (tempo in µs/quarternote)
+SMTP_OFFSET = 0x54  # 54 05 hh mm ss ff xx
+TIME_SIGNATURE = 0x58  # 58 04 nn dd cc bb
+KEY_SIGNATURE = 0x59  # 59 02 sf mi (sf = number of sharps(+) or flats(-)
+# mi = major(0) or minor (1))
+SEQUENCER_SPECIFIC = 0x7F  # Sequencer specific event
 
 
 ###################################################
@@ -229,8 +228,8 @@ ESCAPE_SEQUENCE = 0xF7
 ###################################################
 # Misc constants
 
-FILE_HEADER = 'MThd'
-TRACK_HEADER = 'MTrk'
+FILE_HEADER = "MThd"
+TRACK_HEADER = "MTrk"
 
 # Timecode resolution: frames per second
 FPS_24 = 0xE8

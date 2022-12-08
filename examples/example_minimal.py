@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """Example script which creates the smallest possible type 0 midi file.
 
 All the midi events are in the same track chunk, which only contains one note

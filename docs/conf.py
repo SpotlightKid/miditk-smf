@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # miditk documentation build configuration file
 #
@@ -32,7 +30,7 @@ sys.path.insert(0, project_root)
 # exec version.py instead of importing it. Importing may trigger unwanted
 # side-effects (if autodoc is used, the pypackage may be imported anyway).
 meta = {}
-exec(open(os.path.join(project_root, 'miditk', 'smf', 'release.py')).read(), {}, meta)
+exec(open(os.path.join(project_root, 'miditk', 'smf', 'version.py')).read(), {}, meta)
 
 # -- General configuration ---------------------------------------------
 
@@ -41,7 +39,7 @@ exec(open(os.path.join(project_root, 'miditk', 'smf', 'release.py')).read(), {},
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = ['myst_parser', 'sphinx.ext.autodoc', 'sphinx.ext.viewcode']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -57,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'miditk-smf'
-copyright = u"2019, Christopher Arndt"
+copyright = u"2022, Christopher Arndt"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -191,6 +189,7 @@ html_static_path = ['_static']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'miditkdoc'
 
+myst_heading_anchors = 3
 
 # -- Options for LaTeX output ------------------------------------------
 

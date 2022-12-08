@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """Example script which transposes all note on/off event by one octave."""
 
 from os.path import abspath, dirname, join
@@ -19,11 +18,11 @@ class Transposer(MidiFileWriter):
 
     def note_on(self, channel, note, velocity):
         note = self._transp(channel, note)
-        super(Transposer, self).note_on(channel, note, velocity)
+        super().note_on(channel, note, velocity)
 
     def note_off(self, channel, note, velocity):
         note = self._transp(channel, note)
-        super(Transposer, self).note_off(channel, note, velocity)
+        super().note_off(channel, note, velocity)
 
 
 if __name__ == '__main__':
