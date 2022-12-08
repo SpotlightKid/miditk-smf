@@ -78,7 +78,7 @@ requires-python = ">=3.7"
 
 
 [project.scripts]
-miditk-midi2syx = "miditk.smf.scripts.mid2syx:main"
+miditk-mid2syx = "miditk.smf.scripts.mid2syx:main"
 
 
 [project.optional-dependencies]
