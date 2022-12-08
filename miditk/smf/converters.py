@@ -17,15 +17,8 @@ __all__ = (
 from struct import pack, unpack
 
 
-if isinstance(b"", str):
-
-    def _tobytes(*values):
-        return "".join(chr(c) for c in values)
-
-else:
-
-    def _tobytes(*values):
-        return bytes(values)
+def _tobytes(*values):
+    return bytes(values)
 
 
 def _ord(x):
@@ -49,6 +42,7 @@ def read_bew(value):
 
     """
     lval = len(value)
+
     if lval == 1:
         return _ord(value)
     elif lval == 2:
@@ -74,6 +68,7 @@ def read_varlen(value):
 
     """
     sum = 0
+
     for byte in value:
         sum = (sum << 7) + (byte & 0x7F)
 
@@ -104,6 +99,7 @@ def tobytestr(value, encoding="latin1"):
         value = _tobytes(*value)
     elif isinstance(value, int):
         value = _tobytes(value)
+
     return value
 
 
@@ -111,6 +107,7 @@ def tointseq(value, encoding="latin1"):
     """Convert a bytes/str/unicode instance into a tuple of int byte values."""
     if isinstance(value, str):
         value = value.encode(encoding)
+
     return tuple(_ord(c) for c in value)
 
 

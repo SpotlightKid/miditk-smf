@@ -32,7 +32,7 @@ class MidiSequence(list):
     """Container for a sequence of time-stamped MIDI events."""
 
     def __init__(self, *args, **kwargs):
-        super(MidiSequence, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.tracks = {}
 
     def __repr__(self):
@@ -137,10 +137,11 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
         "program_change",
     ]
 
-    def __init__(self, instance=None, debug=False):
+    def __init__(self, instance=None, debug=False, encoding="utf-8"):
         if instance is None:
             instance = MidiSequence()
-        BaseMidiEventHandler.__init__(self)
+
+        super().__init__(encoding=encoding)
         instance.tempo_map = []
         instance.time_signature_map = []
         instance.key_signature_map = []
@@ -205,6 +206,7 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
         for key, value in locals().items():
             if key != "self" and not key.startswith("_"):
                 setattr(self._instance, key, value)
+
         if metrical:
             log.debug(
                 "MIDI file format: %s, no. of tracks: %i, " "tick division: %i ppqn",
@@ -243,6 +245,7 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
         """Handle channel messages events."""
         if self.debug:
             log.debug("Channel message event: %s", event)
+
         self.add_event(event)
 
     ###############
@@ -274,25 +277,30 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
             if self._sysex_continuation:
                 if self.debug:
                     log.debug("Sysex continuation in effect. Appending event data.")
+
                 self._sysex_buffer.data += event.data
                 event, self._sysex_buffer = self._sysex_buffer, None
 
             if self.debug:
                 log.debug("Storing sysex mssage of %i bytes", len(event.data) + 1)
+
             self.add_event(event)
             self._sysex_continuation = False
         else:
             if self.debug:
                 log.debug("Sysex message not terminated. Assuming continuation.")
+
             if self._sysex_continuation:
                 self._sysex_buffer.data += event.data
             else:
                 self._sysex_buffer = event
+
             self._sysex_continuation = True
 
     def escape_sequence(self, event):
         if self.debug:
             log.debug("Escape sequence, value: %r" % event.data)
+
         self.add_event(event)
 
     #####################
@@ -346,10 +354,12 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
         if self.current_track == 0:
             if self.debug:
                 log.debug("Sequence name: %s", name)
+
             self._instance.sequence_name = name
         else:
             if self.debug:
                 log.debug("Track name (%02i): %s", self.current_track, name)
+
             self._instance.tracks[self.current_track] = name
 
     def tempo(self, value):
@@ -369,6 +379,7 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
         """Handle time signature change events."""
         self.current_time_signature = (nn, dd)
         self._instance.time_signature_map.append((self.current_time, (nn, dd)))
+
         if self.debug:
             log.debug("Time signature: %i/%i (%i cpm, %i dpqn)", nn, dd**2, cc, bb)
 
@@ -376,6 +387,7 @@ class ObjectMidiEventHandler(BaseMidiEventHandler):
         """Handle key signature change events."""
         self.current_key_signature = (sf, mi)
         self._instance.key_signature_map.append((self.current_time, (sf, mi)))
+
         if self.debug:
             log.debug("Key signature: %s %s", sf, mi)
 

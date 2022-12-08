@@ -53,13 +53,13 @@ __all__ = (
 )
 
 
-class BaseMidiFileWriter(object):
+class BaseMidiFileWriter:
     """Base class for MidiFileWriter, which handles event serialization and file I/O."""
 
-    def __init__(self, fp, encoding="UTF-8"):
+    def __init__(self, fp, encoding="utf-8"):
         self._file = fp
         self._track_buffer = None
-        super(BaseMidiFileWriter, self).__init__(encoding="UTF-8")
+        super().__init__(encoding=encoding)
 
     def event_slice(self, slc):
         """Write the event to the current track.

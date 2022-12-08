@@ -39,7 +39,7 @@ from .converters import read_bew, tointseq, write_varlen
 __all__ = ("BaseMidiEventHandler", "MidiEvent", "NullMidiEventHandler", "PrintingMidiEventHandler")
 
 
-class MidiEvent(object):
+class MidiEvent:
     def __init__(self, type_=META_EVENT, track=0):
         self.channel = None
         self.data = b""
@@ -71,7 +71,7 @@ class MidiEvent(object):
             return bytes([self.type, self.meta_type]) + write_varlen(len(self.data)) + self.data
 
 
-class BaseMidiEventHandler(object):
+class BaseMidiEventHandler:
     """Dispatch events to specific event handler methods.
 
     Analyses MIDI events (i.e. channel message and meta events) and calls
@@ -90,7 +90,7 @@ class BaseMidiEventHandler(object):
 
     """
 
-    def __init__(self, encoding="UTF-8"):
+    def __init__(self, encoding="utf-8"):
         """Initialize event dispatcher with given output event handler."""
         self.encoding = encoding
         self.absolute_time = 0

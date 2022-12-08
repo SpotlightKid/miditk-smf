@@ -12,7 +12,7 @@ from .parser import MidiFileParser
 __all__ = ("MidiFileReader",)
 
 
-class MidiFileReader(object):
+class MidiFileReader:
     """Parse a midi file and trigger the midi events on the outstream object."""
 
     def __init__(self, infile, handler=None):
@@ -36,7 +36,7 @@ class MidiFileReader(object):
         if should_close:
             self.infile.close()
 
-    def set_data(self, data="", encoding="UTF-8"):
+    def set_data(self, data="", encoding="utf-8"):
         """Set parser data from a plain or byte string."""
         if isinstance(data, str):
             data = data.decode(encoding)

@@ -49,7 +49,7 @@ def _read_event_data(stream):
 
 
 # classes
-class MidiFileParser(object):
+class MidiFileParser:
     """Parser that decodes the raw binary midi data.
 
     The MidiFileParser is the lowest level parser and generates events from
