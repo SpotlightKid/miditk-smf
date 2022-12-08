@@ -28,7 +28,7 @@ with open('minimal.mid', 'wb') as smf:
     # Set tempo to 120 bpm in µsec per quarter note.
     # When no tempo is set in the MIDI file, sequencers will generally assume
     # it to be 120 bpm.
-    midi.tempo(int(60000000 / 120))
+    midi.tempo(int(60_000_000 / 120))
 
     # Add MIDI events.
     midi.note_on(channel=0, note=0x40)
@@ -86,7 +86,7 @@ An event-based standard MIDI file (SMF) parsing and generation framework.
 
 `miditk.smf.api`:
 
-Base event handler classes, which can be sublassed for specialised event
+Base event handler classes, which can be subclassed for specialised event
 handling.
 
 `miditk.smf.converters`:
@@ -145,7 +145,7 @@ sequence.dump_events()
 # If track is not specified, sysex_events() yields all sysex events
 # in all tracks.
 for ev in sequence.sysex_events(track=0):
-    print "Sysex event (%i bytes) @ %.2f" (len(ev.data), ev.timestamp)
+    print("Sysex event ({} bytes) @ {:.2f}".format(len(ev.data), ev.timestamp))
 
 # Iterate over all events sorted by timestamp and then track.
 for time, group in sequence.events_by_time():
@@ -193,7 +193,7 @@ with open(outfile, 'wb') as smf:
 
 ## Development
 
-Clone the repo:
+Clone the Git repository:
 
 ```console
 git clone https://github.com/SpotlightKid/miditk-smf.git
@@ -218,7 +218,7 @@ Or on Arch Linux:
 sudo pacman -S python-tox
 ```
 
-Run the tests via tox for all Python versions configured in \`tox.ini\`:
+Run the tests via tox for all Python versions configured in `tox.ini`:
 
 ```console
 tox
@@ -236,7 +236,7 @@ reporting tools. To print a list of available Makefile targets and the tools
 they run, simple run:
 
 ```console
-$ make
+make
 ```
 
 Then run the Makefile target of your choice, e.g.:
@@ -252,16 +252,16 @@ specific tasks as, for example, building the documentation. Dependencies and
 tools needed for these tasks will be installed automatically into these
 environments on creation:
 
-To show which special enviroments are defined:
+To show which special environments are defined:
 
 ```console
 hatch env show
 ```
 
-To create and enter e.g. the "dev" enviroment:
+To create and enter e.g. the "dev" environment:
 
 ```console
-hatch --env dev hell
+hatch --env dev shell
 ```
 
 
@@ -284,8 +284,9 @@ The `miditk` package is written by Christopher Arndt and licensed under the MIT
 License.
 
 The the structure of the `miditk.smf` sub-package owes inspiration to the
-[python midi package](http://www.mxm.dk/products/public/pythonmidi/),
-written by <maxm@maxm.dk>.
+[Python Midi] [^1] package, written by <maxm@maxm.dk>.
 
 
 [examples]: https://github.com/SpotlightKid/miditk-smf/tree/master/examples
+[python midi]: http://web.archive.org/web/20100919095628/http://www.mxm.dk/products/public/pythonmidi/
+[^1]: Original web site, now defunct: http://www.mxm.dk/products/public/pythonmidi/
