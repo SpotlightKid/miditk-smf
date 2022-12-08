@@ -56,11 +56,11 @@ class NoteRemapper(MidiFileWriter):
 
     def note_on(self, channel=0, note=0x40, velocity=0x40):
         note = self.map_note(channel, note)
-        super(NoteRemapper, self).note_on(channel, note, velocity)
+        super().note_on(channel, note, velocity)
 
     def note_off(self, channel=0, note=0x40, velocity=0x40):
         note = self.map_note(channel, note)
-        super(NoteRemapper, self).note_off(channel, note, velocity)
+        super().note_off(channel, note, velocity)
 
 
 def main(args=None):
