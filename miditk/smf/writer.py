@@ -22,10 +22,10 @@ from ..common.constants import (
     META_EVENT,
     MIDI_CH_PREFIX,
     MIDI_TIME_CODE,
-    MONO_PRESSURE,
     NOTE_OFF,
     NOTE_ON,
     PITCH_BEND,
+    POLYPHONIC_PRESSURE,
     PROGRAM_CHANGE,
     SEQUENCE_NAME,
     SEQUENCE_NUMBER,
@@ -198,7 +198,7 @@ class MidiFileWriter(BaseMidiFileWriter, NullMidiEventHandler):
 
     def poly_pressure(self, channel=0, note=0x40, pressure=0x40):
         """Handle poly pressure (aftertouch) event."""
-        self.event_slice(tobytestr([MONO_PRESSURE + channel, note, pressure]))
+        self.event_slice(tobytestr([POLYPHONIC_PRESSURE + channel, note, pressure]))
 
     def program_change(self, channel, program):
         """Handle program change event."""
