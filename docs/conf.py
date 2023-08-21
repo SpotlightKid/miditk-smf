@@ -55,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'miditk-smf'
-copyright = u"2022, Christopher Arndt"
+copyright = u"2011 - 2023, Christopher Arndt"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout

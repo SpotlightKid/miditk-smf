@@ -1,10 +1,10 @@
 # License
 
-miditk-smf was written by Christopher Arndt, 2011 - 2022.
+miditk-smf was written by Christopher Arndt, 2011 - 2023.
 
 The software is released unter the MIT License:
 
-Copyright (c) 2011 - 2022 Christopher Arndt
+Copyright (c) 2011 - 2023 Christopher Arndt
 
 > Permission is hereby granted, free of charge, to any person obtaining
 > a copy of this software and associated documentation files (the
