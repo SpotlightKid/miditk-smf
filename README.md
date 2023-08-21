@@ -56,7 +56,7 @@ developed and distributed as separate package distributions in the future.
 
 ### Compatibility
 
-`miditk-smf` works with (C)Python >= 3.7 and PyPy 3.
+`miditk-smf` works with (C)Python >= 3.8 and PyPy 3.
 
 
 ## Installation
