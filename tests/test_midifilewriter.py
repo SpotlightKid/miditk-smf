@@ -1,30 +1,31 @@
 #!/usr/bin/env python3
-"""Write MIDI file with the following events:
 
-format: 0, # of tracks: 1, division: 480
-----------------------------------
-
-Start of track #0
-Sequence name - 'Type 0'
-Tempo: val:500000 (125.0 bpm)
-Time signature: 4/4 24 8
-Note on - ch:00, note:48h, vel:64h time:0
-Note off - ch:00, note:48h, vel:40h time:480
-End of track
-End of file
-
-"""
-
-import io
 import os
+from io import BytesIO
 from os.path import dirname, isdir, join
 
 import pytest  # noqa
 
+from miditk.common.constants import END_OF_TRACK, META_EVENT, POLY_PRESSURE
 from miditk.smf.writer import MidiFileWriter
 
 
 def test_write_type0():
+    """Write MIDI file with the following events:
+
+    format: 0, # of tracks: 1, division: 480
+    ----------------------------------
+
+    Start of track #0
+    Sequence name - 'Type 0'
+    Tempo: val:500000 (125.0 bpm)
+    Time signature: 4/4 24 8
+    Note on - ch:00, note:48h, vel:64h time:0
+    Note off - ch:00, note:48h, vel:40h time:480
+    End of track
+    End of file
+
+    """
     cmpfn = join(dirname(__file__), 'testdata', 'midiout.mid')
     outdir = join(dirname(__file__), 'testoutput')
     outfn = join(outdir, 'midiout.mid')
@@ -58,7 +59,7 @@ def test_write_type0():
 
 
 def test_write_sysex_issue_7():
-    smf = io.BytesIO()
+    smf = BytesIO()
     midi = MidiFileWriter(smf)
     midi.header(format=0, num_tracks=1, tick_division=96)
     midi.start_of_track(track=0)
@@ -67,3 +68,19 @@ def test_write_sysex_issue_7():
     midi.eof()
 
     assert b'\xf0\x07\xf0\xfd\x01\x02\x03\xf7' in smf.getvalue()
+
+
+def test_write_poly_pressure():
+    smf = BytesIO()
+    channel = 10
+    midi = MidiFileWriter(smf)
+    midi.header(format=0, num_tracks=1, tick_division=96)
+    midi.start_of_track(track=0)
+    midi.poly_pressure(channel, 60, 127)
+    midi.end_of_track()
+    midi.eof()
+
+    assert smf.getvalue().endswith(bytes([
+        0, POLY_PRESSURE | channel, 60, 127,    # Poly pressure event
+        0, META_EVENT, END_OF_TRACK, 0          # End of track meta event (len 0)
+    ]))
