@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.1 (2023-08-21)
+
+Fixes:
+
+-   Fixed writing polyphonic pressure events in `MidiFileWriter` (#16).
+
+    Thanks to Jared Boone (@jboone) for the fix.
+
+Project updates:
+
+-   Oldest supported Python version is now 3.8.
+
+
 ## 0.3.0 (2022-12-08)
 
 Project updates:
